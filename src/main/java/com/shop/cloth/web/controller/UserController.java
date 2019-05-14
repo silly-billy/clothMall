@@ -8,7 +8,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.annotation.Resource;
-import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+import java.util.Objects;
 
 /**
  * @Author: silly-billy
@@ -25,25 +26,17 @@ public class UserController {
 
     /**
      * @Author sillybilly
-     * @Description  注册成功--跳转登录界面
-     * @Date 2019/5/13 14:42
-     * @Param []
-     * @return java.lang.String
+     * @Description   用户注册 message： 0--成功 1--失败
+     * @Date 2019/5/14 11:47
+     * @Param [user]
+     * @return int
      */
-    @RequestMapping(method = RequestMethod.GET,value = "/UserRegister")
-    public String addUserInfo(User user)
-    {
-        userService.addUserInfo(user);
-        return "redirect:/login";
-    }
-
     @RequestMapping(method = RequestMethod.POST,value = "/UserResConfirm")
     @ResponseBody
     public int addConfirm(User user)
     {
         int message = 0;
         int count = userService.searchName(user.getUserName());
-        System.out.println(count);
         if(count>0){
             message = 1;
         }
@@ -52,4 +45,27 @@ public class UserController {
         }
         return message;
     }
+
+    /**
+     * @Author sillybilly
+     * @Description   用户登录 0 --失败  1--成功
+     * @Date 2019/5/14 11:55
+     * @Param [user]
+     * @return int
+     */
+    @RequestMapping(method = RequestMethod.POST,value = "/UserLogin")
+    @ResponseBody
+    public int UserLogin(User user,HttpSession session)
+    {
+        session.setAttribute("userInfo",null);
+        int message = 0;
+        User userInfo = userService.matchUserInfo(user);
+        if(!Objects.isNull(userInfo)) {
+            message = 1;
+            session.setAttribute("userInfo",userInfo);
+        }
+        return message;
+    }
+
+
 }

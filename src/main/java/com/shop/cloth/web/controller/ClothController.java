@@ -1,5 +1,6 @@
 package com.shop.cloth.web.controller;
 
+import com.shop.cloth.core.dal.domain.User;
 import com.shop.cloth.core.service.ClothService;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Controller;
@@ -11,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
+import java.util.Objects;
 
 
 /**
@@ -56,16 +58,16 @@ public class ClothController {
             return "index";
         }
         if(detailId.equals("1")){
-            model.addAttribute("ClothList",clothService.findAllHot(1).getRecords());
+            //model.addAttribute("ClothList",clothService.findAllHot(1).getRecords());
             model.addAttribute("agori","热卖服装");
         }else if(detailId.equals("2")){
-            model.addAttribute("ClothList",clothService.findAllMale(1).getRecords());
+            //model.addAttribute("ClothList",clothService.findAllMale(1).getRecords());
             model.addAttribute("agori","男士服装");
             } else if(detailId.equals("3")){
-            model.addAttribute("ClothList",clothService.findAllFemale(1).getRecords());
+           //model.addAttribute("ClothList",clothService.findAllFemale(1).getRecords());
             model.addAttribute("agori","女士服装");
         }else if(detailId.equals("4")){
-            model.addAttribute("ClothList",clothService.findAllChild(1).getRecords());
+           //model.addAttribute("ClothList",clothService.findAllChild(1).getRecords());
             model.addAttribute("agori","儿童服装");
         }
         return "product";
@@ -142,7 +144,6 @@ public class ClothController {
         return "register";
 
     }
-
 
 
 

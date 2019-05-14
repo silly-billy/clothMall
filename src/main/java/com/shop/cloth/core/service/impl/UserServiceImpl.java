@@ -31,4 +31,12 @@ public class UserServiceImpl implements UserService {
         int count = userManager.selectList(queryWrapper).size();
         return count;
     }
+
+    @Override
+    public User matchUserInfo(User user) {
+        Wrapper<User> queryWrapper = new EntityWrapper<>();
+        queryWrapper.eq("user_name",user.getUserName())
+                .eq("user_password",user.getUserPassword());
+        return userManager.selectOne(queryWrapper);
+    }
 }

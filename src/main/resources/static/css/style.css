@@ -135,6 +135,13 @@ div#bs-megadropdown-tabs {
     width: 850px;
 	padding: 1em;
 }
+#dropdown-menu{
+	margin: auto;
+}
+.menu-top1 {
+	width: 250px;
+	padding: 1em;
+}
 .col1 ul li{
 	list-style:none;
 	    border-right: none;
@@ -1021,6 +1028,15 @@ nav.nav-sidebar {
 .login{
 	padding:5em 0 0;
 }
+#image-radius{
+	margin: auto;
+	background-position:  -55px -12px ;
+}
+#image-radius img{
+	border-radius:50%;
+	background-position:  -55px -12px ;
+}
+#image{ background-position:  -55px -12px ;}
 .login-bottom h2{
 	font-size: 1.4em;
 	color:#000;
@@ -1034,6 +1050,9 @@ nav.nav-sidebar {
 	color: red;
 }
 #phone_prompt{
+	color: red;
+}
+#password_prompt{
 	color: red;
 }
 .login-sm {

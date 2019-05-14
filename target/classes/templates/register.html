@@ -329,8 +329,8 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 				</div>
 				<div class="login-mail">
 					<label>请选择性别：</label>
-					<input type="radio" name="userSex" placeholder="性别" value="1" checked="checked" />男 <input
-						type="radio" name="userSex" placeholder="性别" value="2" />女
+					<input type="radio" name="userSex" placeholder="性别" value="0" checked="checked" />男 <input
+						type="radio" name="userSex" placeholder="性别" value="1" />女
 				</div>
 
 				<label class="hvr-skew-backward">
@@ -468,7 +468,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 			if ($.trim($("#passwd").val()) == "") {
 				$("#password_prompt").html("密码不能为空");
 				return false;
-			} 
+			}
 				$("#user_prompt").html("");
 				$.ajax({
 					type : "post",
@@ -484,6 +484,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 							alert("用户名已存在");
 						else {
 							alert("注册成功");
+							location.href = '/login'
 						}
 					}
 				});

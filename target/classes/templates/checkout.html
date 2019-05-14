@@ -49,7 +49,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 <div class="container">
 		<div class="head">
 			<div class=" logo">
-				<a href="index.html"><img src="images/logo.png" alt=""></a>	
+				<a th:href="@{/}"><img src="images/logo.png" alt=""></a>
 			</div>
 		</div>
 	</div>
@@ -57,9 +57,9 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 		<div class="container">
 		<div class="col-sm-5 col-md-offset-2  header-login">
 					<ul >
-						<li><a href="login.html">Login</a></li>
-						<li><a href="register.html">Register</a></li>
-						<li><a href="checkout.html">Checkout</a></li>
+						<li><a th:href="@{/login}">Login</a></li>
+						<li><a th:href="@{/register}">Register</a></li>
+						<li><a th:href="@{/checkout}">Checkout</a></li>
 					</ul>
 				</div>
 				

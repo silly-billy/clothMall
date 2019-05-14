@@ -14,4 +14,7 @@ public interface UserService {
 
     /*查询名字重复*/
     int searchName(String name);
+
+    /*登录信息匹配*/
+    User matchUserInfo(User user);
 }

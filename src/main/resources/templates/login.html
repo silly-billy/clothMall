@@ -308,18 +308,18 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 			<form>
 			<div class="col-md-6 login-do">
 				<div class="login-mail">
-					<input type="text" placeholder="Email" required="">
-					<i  class="glyphicon glyphicon-envelope"></i>
+					<input type="text" placeholder="Name" id="username" required="">
+					<i  class="glyphicon glyphicon-user"></i>
 				</div>
 				<div class="login-mail">
-					<input type="password" placeholder="Password" required="">
+					<input type="password" placeholder="Password" id="password" required="">
 					<i class="glyphicon glyphicon-lock"></i>
 				</div>
-				   <a class="news-letter " href="#">
+				   <!--<a class="news-letter " href="#">
 						 <label class="checkbox1"><input type="checkbox" name="checkbox" ><i> </i>Forget Password</label>
-					   </a>
+					   </a>-->
 				<label class="hvr-skew-backward">
-					<input type="submit" value="login">
+					<input type="submit" value="login" id="loginvalidate">
 				</label>
 			</div>
 			<div class="col-md-6 login-right">
@@ -428,6 +428,31 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 	<script th:src="@{js/simpleCart.min.js}"> </script>
 <!-- slide -->
 <script th:src="@{js/bootstrap.min.js}"></script>
+<script type="text/javascript">
+	$(function(){
+		$('#loginvalidate').click(function(){
+			var username = $('#username').val()
+			var password = $('#password').val()
+			/*console.log(username)
+			console.log(password)*/
+			$.ajax({
+				type : "post",
+				url : "/user/UserLogin",
+				data : {
+					userName:username,
+					userPassword:password
+				},
+				success : function(message) {
+					if(message === 1)
+					{
+						location.href = '/'
+					}
+					else {alert("用户名或密码错误")}
+				}
+			});
+		})
+	})
+</script>
  
 </body>
 </html>
