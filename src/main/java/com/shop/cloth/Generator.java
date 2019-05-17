@@ -17,11 +17,11 @@ public class Generator {
     public static final String PASSWORD = "123456";
 
     public static String[] tables = {
-            "cloth",
-            "order",
-            "orderitem",
-            "user"
-            //"User",
+            "cloth"
+            //"order",
+            //"orderitem",
+            //"user",
+            //"cart"
     };
 
     public static void main(String[] args) {

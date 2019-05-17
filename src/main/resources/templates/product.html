@@ -10,6 +10,7 @@
 	<!-- Custom Theme files -->
 	<!--theme-style-->
 	<link th:href="@{css/style.css}" rel="stylesheet" type="text/css" media="all" />
+	<link th:href="@{css/page.css}" rel="stylesheet" type="text/css" media="all"/>
 	<link th:href="@{css/style4.css}" rel="stylesheet" type="text/css" media="all" />
 	<!-- Custom Theme files -->
 	<meta name="viewport" content="width=device-width, initial-scale=1">
@@ -43,9 +44,13 @@
 		<div class="container">
 			<div class="col-sm-5 col-md-offset-2  header-login">
 				<ul >
-					<li><a href="login.html">Login</a></li>
-					<li><a href="register.html">Register</a></li>
-					<li><a href="checkout.html">Checkout</a></li>
+					<li><a th:href="@{/login}">Login</a></li>
+					<li><a th:href="@{/register}">Register</a></li>
+					<li th:if="${session.userInfo} ne null"><a th:href="@{/checkout}">Checkout</a></li>
+					<li class="dropdown mega-dropdown active">
+						<input id = "sessionUser" type="hidden" th:value="${session.userInfo}" />
+						<a id = "image-radius" class="color1 dropdown-toggle"  data-toggle="dropdown" title="用户信息"><img th:src="@{/images/userIcon.png}" alt="用户"/><span class="caret"></span></a>
+					</li>
 				</ul>
 			</div>
 
@@ -95,14 +100,14 @@
 						</a></li>
 					<li><a class="play-icon popup-with-zoom-anim" href="#small-dialog"><i class="glyphicon glyphicon-search"> </i></a></li>
 				</ul>
+				<div th:if="${session.userInfo} ne null">
 				<div class="cart box_1">
 					<a th:href="@{/checkout}">
 						<h3> <div class="total">
-							<span class="simpleCart_total"></span></div>
+							</div>
 							<img src="images/cart.png" alt=""/></h3>
 					</a>
-					<p><a href="javascript:;" class="simpleCart_empty">Empty Cart</a></p>
-
+				</div>
 				</div>
 				<div class="clearfix"> </div>
 
@@ -158,11 +163,11 @@
 			<span>&gt;</span>&nbsp;
 		</li>
 		<li class="home">
-			Women&nbsp;
+			服装&nbsp;
 			<span>&gt;</span>
 		</li>
 		<li class="home">
-			<span class="red">&nbsp;Clothes&nbsp;</span>
+			<span class="red" th:text="${agori}">&nbsp;&nbsp;</span>
 		</li>
 	</div>
 </ul>
@@ -171,127 +176,11 @@
 	<div class="container">
 		<div class="col-md-9">
 			<div id="eachClothInfo">
-			<div class="product_box1">
-				<ul class="grid-4">
-					<li><a th:href="@{/single}">
-						<div class="view view-first">
-							<img src="images/hot1.png" class="img-responsive" alt=""/>
-							<div class="product_mask"> </div>
-							<div class="tab_desc1">
-								<h3><a href="#">Feel Tank</a></h3>
-								<p>$59.95</p>
-								<a href="#" class="btn1 btn-primary1"><span>Add To Cart</span><img src="images/plus.png" alt=""></a>
-							</div>
-							</div></a></li>
-					<li><a href="single.html">
-				<div class="view view-first">
-					<img src="images/p2.jpg" class="img-responsive" alt=""/>
-					<div class="product_mask"> </div>
-					<div class="tab_desc1">
-						<h3><a href="#">Feel Tank</a></h3>
-						<p>$59.95</p>
-						<a href="#" class="btn1 btn-primary1"><span>Add To Cart</span><img src="images/plus.png" alt=""></a>
-					</div>
-			</div></a></li>
-					<li class="grid-4_last"><a href="single.html">
-			<div class="view view-first">
-				<img src="images/p3.jpg" class="img-responsive" alt=""/>
-				<div class="product_mask"> </div>
-				<div class="tab_desc1">
-					<h3><a href="#">Feel Tank</a></h3>
-					<p>$59.95</p>
-					<a href="#" class="btn1 btn-primary1"><span>Add To Cart</span><img src="images/plus.png" alt=""></a>
-				</div>
-		</div></a></li>
-					<div class="clearfix"> </div>
-				</ul>
+
 			</div>
-			<div class="product_box1">
-				<ul class="grid-4">
-		<li><a href="single.html">
-			<div class="view view-first">
-				<img src="images/p4.jpg" class="img-responsive" alt=""/>
-				<div class="product_mask"> </div>
-				<div class="tab_desc1">
-					<h3><a href="#">Feel Tank</a></h3>
-					<p>$59.95</p>
-					<a href="#" class="btn1 btn-primary1"><span>Add To Cart</span><img src="images/plus.png" alt=""></a>
-				</div>
-		</div></a>
-</li>
-<li><a href="single.html">
-	<div class="view view-first">
-		<img src="images/p5.jpg" class="img-responsive" alt=""/>
-		<div class="product_mask"> </div>
-		<div class="tab_desc1">
-			<h3><a href="#">Feel Tank</a></h3>
-			<p>$59.95</p>
-			<a href="#" class="btn1 btn-primary1"><span>Add To Cart</span><img src="images/plus.png" alt=""></a>
-		</div>
-</div></a>
-</li>
-<li class="grid-4_last"><a href="single.html">
-	<div class="view view-first">
-		<img src="images/p6.jpg" class="img-responsive" alt=""/>
-		<div class="product_mask"> </div>
-		<div class="tab_desc1">
-			<h3><a href="#">Feel Tank</a></h3>
-			<p>$59.95</p>
-			<a href="#" class="btn1 btn-primary1"><span>Add To Cart</span><img src="images/plus.png" alt=""></a>
-		</div>
-</div></a>
-</li>
-<div class="clearfix"> </div>
-</ul>
+			<div class="center">
+
 			</div>
-			<div class="product_box1">
-				<ul class="grid-4">
-		<li><a href="single.html">
-			<div class="view view-first">
-				<img src="images/p7.jpg" class="img-responsive" alt=""/>
-				<div class="product_mask"> </div>
-				<div class="tab_desc1">
-					<h3><a href="#">Feel Tank</a></h3>
-					<p>$59.95</p>
-					<a href="#" class="btn1 btn-primary1"><span>Add To Cart</span><img src="images/plus.png" alt=""></a>
-				</div>
-		</div></a></li>
-		<li><a href="single.html">
-	<div class="view view-first">
-		<img src="images/p8.jpg" class="img-responsive" alt=""/>
-		<div class="product_mask"> </div>
-		<div class="tab_desc1">
-			<h3><a href="#">Feel Tank</a></h3>
-			<p>$59.95</p>
-			<a href="#" class="btn1 btn-primary1"><span>Add To Cart</span><img src="images/plus.png" alt=""></a>
-		</div>
-</div></a></li>
-		<li class="grid-4_last"><a href="single.html">
-	<div class="view view-first">
-		<img src="images/p9.jpg" class="img-responsive" alt=""/>
-		<div class="product_mask"> </div>
-		<div class="tab_desc1">
-			<h3><a href="#">Feel Tank</a></h3>
-			<p>$59.95</p>
-			<a href="#" class="btn1 btn-primary1"><span>Add To Cart</span><img src="images/plus.png" alt=""></a>
-		</div>
-</div></a></li>
-		<div class="clearfix"> </div>
-	</ul>
-			</div>
-			</div>
-<div class="pages">
-	<div class="limiter visible-desktop">
-		<label>Showing 1-12 of 347 results</label>
-	</div>
-	<ul class="dc_pagination dc_paginationA dc_paginationA06">
-		<li><a href="#">1</a></li>
-		<li><a href="#">2</a></li>
-		<li><a href="#">3</a></li>
-		<li><a href="#" class="current"></a></li>
-	</ul>
-	<div class="clearfix"></div>
-</div>
 </div>
 <div class="col-md-3 product_right">
 	<h3 class="m_1">Categories</h3>
@@ -444,7 +333,145 @@
 	$(document).ready(function(){
 		var categoryid=$("#categoryid").text();
 		console.log(categoryid)
+		$("#eachClothInfo").html("")
+		$.ajax({
+			type: "get",
+			url: "/detailClothList",
+			data : {
+				categoryid: categoryid
+			},
+			success: function (msg) {
+				console.log(msg)
+				var clothInfo = msg.records
+				var show = ''
+				var addshow = ''
+				var count = msg.current
+				$('.center').html("")
+				for(var i = 0;i < 3;i++){
+					show += '<div class="product_box1">' +
+							'<ul class="grid-4">'
+					for(var j = 0; j < 3;j++){
+						if((j+3*i+1)<=clothInfo.length){
+							if(j==0||j==1){
+								show += '<li><a href="/single?clothId='+clothInfo[j+3*i].id+'">' +
+										'<div class="view view-first">' +
+										'<img src="images/'+clothInfo[j+3*i].clothPicurl+'" class="img-responsive" alt="" />' +
+										'<div class="product_mask"> </div>' +
+										'<div class="tab_desc1">' +
+										'<h3><a href="#">'+clothInfo[j+3*i].clothName +'</a></h3>' +
+										'<p>￥'+clothInfo[j+3*i].clothPrice+'</p>' +
+										'<a href="/single?clothId='+clothInfo[j+3*i].id+'" class="btn1 btn-primary1"><span>Cloth Detail</span><img src="images/plus.png" alt=""></a>' +
+										'</div></div></a></li>'
+							}
+							else{
+								show += '<li class="grid-4_last"><a href="/single?clothId='+clothInfo[j+3*i].id+'">' +
+										'<div class="view view-first">' +
+										'<img src="images/'+clothInfo[j+3*i].clothPicurl+'" class="img-responsive" alt="" />' +
+										'<div class="product_mask"> </div>' +
+										'<div class="tab_desc1">' +
+										'<h3><a href="#">'+clothInfo[j+3*i].clothName +'</a></h3>' +
+										'<p>￥'+clothInfo[j+3*i].clothPrice+'</p>' +
+										'<a href="/single?clothId='+clothInfo[j+3*i].id+'" class="btn1 btn-primary1"><span>Cloth Detail</span><img src="images/plus.png" alt=""></a>' +
+										'</div></div></a></li>'
+							}
+						}
+
+					}
+					show += '<div class="clearfix"> </div>' +
+							'</ul></div>'
+				}
+				$('#eachClothInfo').append(show)
+				addshow += '<ul class="pageh1"><li><a href="javascript:void(0)" onclick="choosePage(' + count + ',0)">上一页</a></li>'
+				for (var j = 1; j <= msg.pages && j < 4; j++) {
+					addshow += '<li><a href="javascript:void(0)" onclick="choosePage(' + j + ',2)">' + j + '</a></li>'
+				}
+				addshow += '<li><a href="javascript:void(0)" onclick="choosePage(' + count + ',1)">下一页</a></li>' +
+						'</ul>' +
+						'<div>showing 1-12 of ' + msg.total + 'results</div>'
+				$('.center').append(addshow)
+			}
+		})
 	});
+
+	function choosePage(count, current) {
+		var categoryid=$("#categoryid").text();
+		$("#eachClothInfo").html("")
+		$('.center').html("")
+		$.ajax({
+			type: 'GET',
+			url: '/GoCloth',
+			data: {count: count, current: current, categoryid: categoryid},
+			cache: false,
+			dataType: 'json',
+			success: function (msg) {
+				var clothInfo = msg.records
+				var show = ''
+				var addshow = ''
+				var count = msg.current
+				$('.center').html("")
+				for(var i = 0;i < 3;i++){
+					show += '<div class="product_box1">' +
+							'<ul class="grid-4">'
+					for(var j = 0; j < 3;j++){
+						if((j+3*i+1)<=clothInfo.length){
+							if(j==0||j==1){
+								show += '<li><a href="/single?clothId='+clothInfo[j+3*i].id+'">' +
+										'<div class="view view-first">' +
+										'<img src="images/'+clothInfo[j+3*i].clothPicurl+'" class="img-responsive" alt="" />' +
+										'<div class="product_mask"> </div>' +
+										'<div class="tab_desc1">' +
+										'<h3><a href="#">'+clothInfo[j+3*i].clothName +'</a></h3>' +
+										'<p>￥'+clothInfo[j+3*i].clothPrice+'</p>' +
+										'<a href="/single?clothId='+clothInfo[j+3*i].id+'" class="btn1 btn-primary1"><span>Cloth Detail</span><img src="images/plus.png" alt=""></a>' +
+										'</div></div></a></li>'
+							}
+							else{
+								show += '<li class="grid-4_last"><a href="/single?clothId='+clothInfo[j+3*i].id+'">' +
+										'<div class="view view-first">' +
+										'<img src="images/'+clothInfo[j+3*i].clothPicurl+'" class="img-responsive" alt="" />' +
+										'<div class="product_mask"> </div>' +
+										'<div class="tab_desc1">' +
+										'<h3><a href="#">'+clothInfo[j+3*i].clothName +'</a></h3>' +
+										'<p>￥'+clothInfo[j+3*i].clothPrice+'</p>' +
+										'<a href="/single?clothId='+clothInfo[j+3*i].id+'" class="btn1 btn-primary1"><span>Cloth Detail</span><img src="images/plus.png" alt=""></a>' +
+										'</div></div></a></li>'
+							}
+						}
+
+					}
+					show += '<div class="clearfix"> </div>' +
+							'</ul></div>'
+				}
+				$('#eachClothInfo').append(show)
+				addshow += '<ul class="pageh1"><li><a href="javascript:void(0)" onclick="choosePage(' + count + ',0)">上一页</a></li>'
+				for (var j = 1; j <= msg.pages && j < 4; j++) {
+					addshow += '<li><a href="javascript:void(0)" onclick="choosePage(' + j + ',2)">' + j + '</a></li>'
+				}
+				addshow += '<li><a href="javascript:void(0)" onclick="choosePage(' + count + ',1)">下一页</a></li>' +
+						'</ul>' +
+						'<div>showing 1-12 of ' + msg.total + 'results</div>'
+				$('.center').append(addshow)
+			}
+
+		});
+	}
+
+
+
+</script>
+<script type="text/javascript">
+	$(function(){
+		$('#image-radius').click(function(){
+			var status = $('#sessionUser').val()
+
+			if(status == '')
+			{
+				alert("请先登录")
+				location.href = '/login'
+			}
+			else location.href = '/register'
+		})
+	})
 </script>
 </body>
 </html>

@@ -42,6 +42,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 		</script>
 <!---//End-rate---->
 <link th:href="@{css/form.css}" rel="stylesheet" type="text/css" media="all" />
+
 </head>
 <body>
 
@@ -50,7 +51,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 	<div class="container">
 		<div class="head">
 			<div class=" logo">
-				<a href="index.html"><img src="images/logo.png" alt=""></a>
+				<a th:href="@{/}"><img src="images/logo.png" alt=""></a>
 			</div>
 		</div>
 	</div>
@@ -58,9 +59,13 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 		<div class="container">
 			<div class="col-sm-5 col-md-offset-2  header-login">
 				<ul >
-					<li><a href="login.html">Login</a></li>
-					<li><a href="register.html">Register</a></li>
-					<li><a href="checkout.html">Checkout</a></li>
+					<li><a th:href="@{/login}">Login</a></li>
+					<li><a th:href="@{/register}">Register</a></li>
+					<li th:if="${session.userInfo} ne null"><a th:href="@{/checkout}">Checkout</a></li>
+					<li class="dropdown mega-dropdown active">
+						<input id = "sessionUser" type="hidden" th:value="${session.userInfo}" />
+						<a id = "image-radius" class="color1 dropdown-toggle"  data-toggle="dropdown" title="用户信息"><img th:src="@{/images/userIcon.png}" alt="用户"/><span class="caret"></span></a>
+					</li>
 				</ul>
 			</div>
 
@@ -232,7 +237,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 							<li><a class="color3" href="product.html">童装</a></li>
 							<li><a class="color3" href="product.html">Sale</a></li>
 							<li><a class="color4" href="404.html">关于</a></li>
-							<li ><a class="color6" href="contact.html">Contact</a></li>
+							<li ><a class="color6" th:href="@{/contact}">Contact</a></li>
 						</ul>
 					</div><!-- /.navbar-collapse -->
 
@@ -246,14 +251,14 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 						</a></li>
 					<li><a class="play-icon popup-with-zoom-anim" href="#small-dialog"><i class="glyphicon glyphicon-search"> </i></a></li>
 				</ul>
-				<div class="cart box_1">
-					<a th:href="@{/checkout}">
-						<h3> <div class="total">
-							<span class="simpleCart_total"></span></div>
-							<img src="images/cart.png" alt=""/></h3>
-					</a>
-					<p><a href="javascript:;" class="simpleCart_empty">Empty Cart</a></p>
-
+				<div th:if="${session.userInfo} ne null">
+					<div class="cart box_1">
+						<a th:href="@{/checkout}">
+							<h3> <div class="total">
+								</div>
+								<img src="images/cart.png" alt=""/></h3>
+						</a>
+					</div>
 				</div>
 				<div class="clearfix"> </div>
 
@@ -299,7 +304,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 	<div class="container">
 		<h1>Single</h1>
 		<em></em>
-		<h2><a href="index.html">Home</a><label>/</label>Single</a></h2>
+		<h2><a th:href="@{/}">Home</a><label>/</label>Single</a></h2>
 	</div>
 </div>
 <div class="single">
@@ -310,60 +315,53 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 		<div class="flexslider">
 			  <ul class="slides">
 			    <li data-thumb="images/si.jpg">
-			        <div class="thumb-image"> <img src="images/bighot1.png" data-imagezoom="true" class="img-responsive"> </div>
+			        <div class="thumb-image"> <img th:src="@{'images/'+ ${clothInfo.getClothBigpicurl()}}" data-imagezoom="true" class="img-responsive"> </div>
 			    </li>
-			    <!--<li data-thumb="images/si1.jpg">
-			         <div class="thumb-image"> <img src="images/si1.jpg" data-imagezoom="true" class="img-responsive"> </div>
-			    </li>
-			    <li data-thumb="images/si2.jpg">
-			       <div class="thumb-image"> <img src="images/si2.jpg" data-imagezoom="true" class="img-responsive"> </div>
-			    </li> -->
 			  </ul>
 		</div>
 	</div>	
 <div class="col-md-7 single-top-in">
-						<div class="span_2_of_a1 simpleCart_shelfItem">
-				<h3>Nam liber tempor cum</h3>
-				<p class="in-para"> There are many variations of passages of Lorem Ipsum.</p>
+	<div class="span_2_of_a1 simpleCart_shelfItem">
+				<h5 th:text="${clothInfo.getClothBrand()}+'--'+${clothInfo.clothName}"></h5>
+				<p class="in-para">
+					<span th:if="${clothInfo.getClothSize()} eq '0'">Cloth Size: XXL</span>
+					<span th:if="${clothInfo.getClothSize()} eq '1'">Cloth Size: XL</span>
+					<span th:if="${clothInfo.getClothSize()} eq '2'">Cloth Size: L</span>
+					<span th:if="${clothInfo.getClothSize()} eq '3'">Shoes Size: 35码</span>
+					<span th:if="${clothInfo.getClothSize()} eq '4'">Shoes Size: 38码</span>
+					<span th:if="${clothInfo.getClothSize()} eq '5'">Shoes Size: 42码</span>
+				</p>
 			    <div class="price_single">
-				  <span class="reducedfrom item_price">$140.00</span>
+				  <span class="reducedfrom item_price" th:text="'￥'+${clothInfo.getClothPrice()}"></span>
 				 <a href="#">click for offer</a>
 				 <div class="clearfix"></div>
 				</div>
 				<h4 class="quick">Quick Overview:</h4>
-				<p class="quick_desc"> Nam liber tempor cum soluta nobis eleifend option congue nihil imperdiet doming id quod mazim placerat facer possim assum. Typi non habent claritatem insitam; es</p>
+				<p class="quick_desc"> 累计销售：<span th:text="${clothInfo.clothStock}"></span>&nbsp;&nbsp;剩余库存：<span th:text="${clothInfo.clothStock}"></span></p>
+		<p class="quick_desc">累计评价（<span th:text="${clothInfo.clothPrice}"></span>）&nbsp;&nbsp;剩余库存：<span th:text="${clothInfo.clothStock}"></span></p>
 			    <div class="wish-list">
 				 	<ul>
-				 		<li class="wish"><a href="#"><span class="glyphicon glyphicon-check" aria-hidden="true"></span>Add to Wishlist</a></li>
-				 	    <li class="compare"><a href="#"><span class="glyphicon glyphicon-resize-horizontal" aria-hidden="true"></span>Add to Compare</a></li>
+				 		<li class="wish"><a th:href="@{/wishlist}"><span class="glyphicon glyphicon-check" aria-hidden="true"></span>Add to Wishlist</a></li>
+				 	    <li class="compare"><a th:href="@{/checkout}"><span class="glyphicon glyphicon-resize-horizontal" aria-hidden="true"></span>Add to Cart</a></li>
 				 	</ul>
 				 </div>
-				 <div class="quantity"> 
-								<div class="quantity-select">                           
-									<div class="entry value-minus">&nbsp;</div>
-									<div class="entry value"><span>1</span></div>
-									<div class="entry value-plus active">&nbsp;</div>
+							<div class="quantity">
+								<div style="width: 160px">
+									<input style="width: 50px; height: 32px; border: 2px white; float: left;" type="button" value="-" onclick="reductionOf(this)" />
+									<input style="text-align: center; width: 50px; height: 32px; float: left;" type="text" id="num" value="1" onblur="checkNumber(this)" />
+									<input style="width: 50px; height: 32px; border: 2px white;" type="button" value="+" onclick="add(this)" />
 								</div>
 							</div>
-							<!--quantity-->
-	<script>
-    $('.value-plus').on('click', function(){
-    	var divUpd = $(this).parent().find('.value'), newVal = parseInt(divUpd.text(), 10)+1;
-    	divUpd.text(newVal);
-    });
 
-    $('.value-minus').on('click', function(){
-    	var divUpd = $(this).parent().find('.value'), newVal = parseInt(divUpd.text(), 10)-1;
-    	if(newVal>=1) divUpd.text(newVal);
-    });
-	</script>
-	<!--quantity-->
-				 
-			    <a href="#" class="add-to item_add hvr-skew-backward">Add to cart</a>
+				 <input type="hidden" id="cartSmallpicurl" th:value="${clothInfo.clothSmallpicurl}" />
+		         <input type="hidden" id="cartClothname" th:value="${clothInfo.clothName}" />
+		        <input type="hidden" id="cartClothbrand" th:value="${clothInfo.clothBrand}" />
+		        <input type="hidden" id="cartClothprice" th:value="${clothInfo.clothPrice}" />
+
+			    <a href="javascript:void(0);" class="add-to item_add hvr-skew-backward" onclick="addCart_method()">Add to cart</a>
 			<div class="clearfix"> </div>
 			</div>
-		
-					</div>
+</div>
 			<div class="clearfix"> </div>
 			<!---->
 			<div class="tab-head">
@@ -645,7 +643,80 @@ $(window).load(function() {
 	<script th:src="@{js/simpleCart.min.js}"> </script>
 <!-- slide -->
 <script th:src="@{js/bootstrap.min.js}"></script>
+<script type="text/javascript">
 
 
+	function addCart_method() {
+		var cartSmallpicurl = $('#cartSmallpicurl').val()
+		var cartClothname = $('#cartClothname').val()
+		var cartClothbrand = $('#cartClothbrand').val()
+		var cartClothprice = $('#cartClothprice').val()
+		var cartClothnum = $('#num').val()
+		$.ajax({
+			type: 'POST',
+			url: '/addcheckout' ,
+			data:{
+				cartSmallpicurl:cartSmallpicurl,
+				cartClothname:cartClothname,
+				cartClothbrand:cartClothbrand,
+				cartClothprice:cartClothprice,
+				cartClothnum:cartClothnum
+			},
+			cache: false,
+			dataType: 'json',
+			success:function(data){
+				if(data==0){
+					alert("添加成功")
+				}
+				else{
+					alert("添加失败,请确认已经登录")
+					location.href = "/login"
+				}
+			}
+		})
+	}
+</script>
+<script>
+	//减数量
+	function reductionOf(obj) {
+		//减前判断
+		if ($(obj).next().val() == '') {
+			$(obj).next().val(1);
+		}
+		if($(obj).next().val() >1)
+		$(obj).next().val(parseInt($(obj).next().val()) - 1);//数值减
+		$(obj).next().val($(obj).next().val());//赋值给框
+	};
+	//加数量
+	function add(obj) {
+		//加前判断
+		if ($(obj).prev().val() == '') {
+			$(obj).prev().val(1);
+		}
+		$(obj).prev().val(parseInt($(obj).prev().val()) + 1);//数值加
+		$(obj).prev().val($(obj).prev().val());//赋值给框
+	};
+	//校验数字格式（只能输入正整数）
+	function checkNumber(obj) {
+		var reg = /^[1-9]\d*$/;
+		if(!reg.test($(obj).val()) || $(obj).val()==''){
+			$(obj).val(1);
+		}
+	}
+</script>
+<script type="text/javascript">
+	$(function(){
+		$('#image-radius').click(function(){
+			var status = $('#sessionUser').val()
+
+			if(status == '')
+			{
+				alert("请先登录")
+				location.href = '/login'
+			}
+			else location.href = '/register'
+		})
+	})
+</script>
 </body>
 </html>

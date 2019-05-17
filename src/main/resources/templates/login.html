@@ -49,18 +49,22 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 <div class="container">
 		<div class="head">
 			<div class=" logo">
-				<a href="index.html"><img src="images/logo.png" alt=""></a>	
+				<a th:href="@{/}"><img src="images/logo.png" alt=""></a>
 			</div>
 		</div>
 	</div>
 	<div class="header-top">
 		<div class="container">
 		<div class="col-sm-5 col-md-offset-2  header-login">
-					<ul >
-						<li><a th:href="@{/login}">Login</a></li>
-						<li><a th:href="@{/register}">Register</a></li>
-						<li><a th:href="@{/checkout}">Checkout</a></li>
-					</ul>
+			<ul >
+				<li><a th:href="@{/login}">Login</a></li>
+				<li><a th:href="@{/register}">Register</a></li>
+				<li th:if="${session.userInfo} ne null"><a th:href="@{/checkout}">Checkout</a></li>
+				<li class="dropdown mega-dropdown active">
+					<input id = "sessionUser" type="hidden" th:value="${session.userInfo}" />
+					<a id = "image-radius" class="color1 dropdown-toggle"  data-toggle="dropdown" title="用户信息"><img th:src="@{/images/userIcon.png}" alt="用户"/><span class="caret"></span></a>
+				</li>
+			</ul>
 				</div>
 				
 			<div class="col-sm-5 header-social">		
@@ -245,15 +249,15 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 				</a></li>
 				<li><a class="play-icon popup-with-zoom-anim" href="#small-dialog"><i class="glyphicon glyphicon-search"> </i></a></li>
 					</ul>
+				<div th:if="${session.userInfo} ne null">
 					<div class="cart box_1">
 						<a th:href="@{/checkout}">
-						<h3> <div class="total">
-							<span class="simpleCart_total"></span></div>
-							<img src="images/cart.png" alt=""/></h3>
+							<h3> <div class="total">
+								</div>
+								<img src="images/cart.png" alt=""/></h3>
 						</a>
-						<p><a href="javascript:;" class="simpleCart_empty">Empty Cart</a></p>
-
 					</div>
+				</div>
 					<div class="clearfix"> </div>
 					
 						<!----->
@@ -453,6 +457,19 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 		})
 	})
 </script>
- 
+<script type="text/javascript">
+	$(function(){
+		$('#image-radius').click(function(){
+			var status = $('#sessionUser').val()
+
+			if(status == '')
+			{
+				alert("请先登录")
+				location.href = '/login'
+			}
+			else location.href = '/register'
+		})
+	})
+</script>
 </body>
 </html>

@@ -28,7 +28,7 @@ public class ClothServiceImpl implements ClothService{
     public Page<Cloth> findAllCloth(int count) {
         Wrapper<Cloth> queryWrapper = new EntityWrapper<>();
         queryWrapper.eq("is_delete",0);
-        Page page = new Page(count,6);
+        Page page = new Page(count,9);
         Page<Cloth> clothList = clothManager.selectPage(page,queryWrapper);
         return clothList;
     }
@@ -38,7 +38,7 @@ public class ClothServiceImpl implements ClothService{
         Wrapper<Cloth> queryWrapper = new EntityWrapper<>();
         queryWrapper.eq("cloth_sex",0)
                 .eq("is_delete",0);
-        Page page = new Page(count,6);
+        Page page = new Page(count,9);
         Page<Cloth> maleClothList = clothManager.selectPage(page,queryWrapper);
         return maleClothList;
     }
@@ -48,7 +48,7 @@ public class ClothServiceImpl implements ClothService{
         Wrapper<Cloth> queryWrapper = new EntityWrapper<>();
         queryWrapper.eq("cloth_sex",1)
                 .eq("is_delete",0);
-        Page page = new Page(count,6);
+        Page page = new Page(count,9);
         Page<Cloth> femaleClothList = clothManager.selectPage(page,queryWrapper);
         return femaleClothList;
     }
@@ -58,7 +58,7 @@ public class ClothServiceImpl implements ClothService{
         Wrapper<Cloth> queryWrapper = new EntityWrapper<>();
         queryWrapper.eq("cloth_sex",2)
                 .eq("is_delete",0);
-        Page page = new Page(count,6);
+        Page page = new Page(count,9);
         Page<Cloth> childClothList = clothManager.selectPage(page,queryWrapper);
         return childClothList;
     }
@@ -68,7 +68,7 @@ public class ClothServiceImpl implements ClothService{
         Wrapper<Cloth> queryWrapper = new EntityWrapper<>();
         queryWrapper.eq("cloth_ishotsell",1)
                 .eq("is_delete",0);
-        Page page = new Page(count,6);
+        Page page = new Page(count,9);
         Page<Cloth> HotClothList = clothManager.selectPage(page,queryWrapper);
         return HotClothList;
     }

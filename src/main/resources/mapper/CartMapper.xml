@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.shop.cloth.core.dal.dao.CartDao">
+
+        <!-- 通用查询映射结果 -->
+        <resultMap id="BaseResultMap" type="com.shop.cloth.core.dal.domain.Cart">
+                    <id column="id" property="id"/>
+                    <result column="cart_smallpicurl" property="cartSmallpicurl"/>
+                    <result column="cart_clothname" property="cartClothname"/>
+                    <result column="cart_clothbrand" property="cartClothbrand"/>
+                    <result column="cart_clothprice" property="cartClothprice"/>
+                    <result column="cart_subprice" property="cartSubprice"/>
+                    <result column="is_delete" property="isDelete"/>
+                    <result column="cart_userid" property="cartUserid"/>
+                    <result column="cart_clothnum" property="cartClothnum"/>
+        </resultMap>
+        <!-- 通用查询结果列 -->
+        <sql id="Base_Column_List">
+       id,cart_smallpicurl,cart_clothname,cart_clothbrand,cart_clothprice,cart_subprice,is_delete,cart_userid,cart_clothnum
+        </sql>
+</mapper>

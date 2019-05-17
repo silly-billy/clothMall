@@ -818,7 +818,7 @@ p.quick_desc {
 	color:#B3B3B3;
 	font-size:0.9em;
 	line-height: 2em;
-	margin: 1em 0 2em;
+	margin: 1px 0 1px;
 }
 span.actual {
 	color:#F67777;
@@ -2272,7 +2272,7 @@ h4.quick {
 }
 p.quick_desc {
     font-size: 0.8em;
-    margin: 0.7em 0 1em;
+    margin: 1px 0 1px;
 }
 .product-qty span {
     font-size: 1em;

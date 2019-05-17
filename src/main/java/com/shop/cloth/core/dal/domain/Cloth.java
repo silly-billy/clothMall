@@ -50,7 +50,7 @@ public class Cloth extends BaseModel {
      * 衣服价格
      */
     @TableField("cloth_price")
-    private String clothPrice;
+    private Double clothPrice;
     /**
      * 衣服图片url地址
      */
@@ -81,5 +81,10 @@ public class Cloth extends BaseModel {
      */
     @TableField("cloth_bigpicurl")
     private String clothBigpicurl;
+    /**
+     * 小图
+     */
+    @TableField("cloth_smallpicurl")
+    private String clothSmallpicurl;
 
 }
