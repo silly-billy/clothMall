@@ -3,6 +3,8 @@ package com.shop.cloth.core.service;
 import com.baomidou.mybatisplus.plugins.Page;
 import com.shop.cloth.core.dal.domain.Cloth;
 
+import java.util.List;
+
 
 /**
  * @Author: silly-billy
@@ -30,5 +32,9 @@ public interface ClothService {
     /*根据ID查询衣服信息*/
     Cloth queryClothInfo(int id);
 
+    /*跟新服装--库存量*/
+    void updateClothInfo(Cloth cloth);
 
+    /*按照服装出售量排序*/
+    Page<Cloth> SortBySoldAmount();
 }

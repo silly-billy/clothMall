@@ -61,10 +61,11 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 						<li><a th:href="@{/login}">Login</a></li>
 						<li><a th:href="@{/register}">Register</a></li>
 						<li th:if="${session.userInfo} ne null"><a th:href="@{/checkout}">Checkout</a></li>
-						<li class="dropdown mega-dropdown active">
+						<li th:if="${session.userInfo} ne null">
 							<input id = "sessionUser" type="hidden" th:value="${session.userInfo}" />
-							<a id = "image-radius" class="color1 dropdown-toggle"  data-toggle="dropdown" title="用户信息"><img th:src="@{/images/userIcon.png}" alt="用户"/><span class="caret"></span></a>
+							<a href="javascript:void(0);" id = "image-radius" class="color1 dropdown-toggle"  data-toggle="dropdown" title="用户信息">当前用户：<span th:text="${session.userInfo.getUserName()}"></span></a>
 						</li>
+					<li th:if="${session.userInfo} ne null"><a th:href="@{/user/UserExit}"><span th:text="退出"></span></a></li>
 					</ul>
 				</div>
 				
@@ -476,7 +477,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 				alert("请先登录")
 				location.href = '/login'
 			}
-			else location.href = '/register'
+			else location.href = '/userInfo'
 		})
 	})
 </script>

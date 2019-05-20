@@ -4,7 +4,6 @@ import com.baomidou.mybatisplus.mapper.EntityWrapper;
 import com.baomidou.mybatisplus.mapper.Wrapper;
 import com.baomidou.mybatisplus.plugins.Page;
 import com.shop.cloth.core.dal.domain.Cart;
-import com.shop.cloth.core.dal.domain.Cloth;
 import com.shop.cloth.core.dal.manager.CartManager;
 import com.shop.cloth.core.service.CartService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,9 +28,9 @@ public class CartServiceImpl implements CartService {
     }
 
     @Override
-    public Page<Cart> queryCartInfo(int count) {
+    public Page<Cart> queryCartInfo(int count,int userId) {
         Wrapper<Cart> queryWrapper = new EntityWrapper<>();
-        queryWrapper.eq("is_delete",0);
+        queryWrapper.eq("is_delete",0).eq("cart_userid",userId);
         Page page = new Page(count,3);
         return cartManager.selectPage(page,queryWrapper);
     }
@@ -44,9 +43,9 @@ public class CartServiceImpl implements CartService {
     }
 
     @Override
-    public Double CaculatePrice() {
+    public Double CaculatePrice(int userId) {
         Wrapper<Cart> queryWrapper = new EntityWrapper<>();
-        queryWrapper.eq("is_delete",0);
+        queryWrapper.eq("is_delete",0).eq("cart_userid",userId);
         double sumPrice = 0;
         List<Cart> cartList =  cartManager.selectList(queryWrapper);
         for (Cart index:cartList){
@@ -54,4 +53,10 @@ public class CartServiceImpl implements CartService {
         }
         return sumPrice;
     }
+
+    @Override
+    public Cart queryCartInfoById(int id) {
+        return cartManager.selectById(id);
+    }
+
 }

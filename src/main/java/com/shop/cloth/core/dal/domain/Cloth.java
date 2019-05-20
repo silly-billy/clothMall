@@ -67,6 +67,11 @@ public class Cloth extends BaseModel {
     @TableField("cloth_stock")
     private Integer clothStock;
     /**
+     * 已售量
+     */
+    @TableField("cloth_sellamount")
+    private Integer clothSellamount;
+    /**
      * 判断是否热卖 0不是 1是
      */
     @TableField("cloth_ishotsell")

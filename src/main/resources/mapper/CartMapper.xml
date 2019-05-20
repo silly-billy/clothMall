@@ -13,9 +13,10 @@
                     <result column="is_delete" property="isDelete"/>
                     <result column="cart_userid" property="cartUserid"/>
                     <result column="cart_clothnum" property="cartClothnum"/>
+                    <result column="cart_clothid" property="cartClothid"/>
         </resultMap>
         <!-- 通用查询结果列 -->
         <sql id="Base_Column_List">
-       id,cart_smallpicurl,cart_clothname,cart_clothbrand,cart_clothprice,cart_subprice,is_delete,cart_userid,cart_clothnum
+       id,cart_smallpicurl,cart_clothname,cart_clothbrand,cart_clothprice,cart_subprice,is_delete,cart_userid,cart_clothnum,cart_clothid
         </sql>
 </mapper>

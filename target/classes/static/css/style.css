@@ -1009,9 +1009,15 @@ ul.product-qty {
 .facts ul li span{
     padding-right: 0.5em;
 }
+#AddressInfo{
+	width: 37%;
+	heigit:200px;
+	overflow: auto;
+	word-break: break-all;
+}
 nav.nav-sidebar {
     float: left;
-    width: 30%;
+    width: 20%;
 	border-top: 1px solid #EDEDED;
 	border-left: 1px solid #EDEDED;
 }

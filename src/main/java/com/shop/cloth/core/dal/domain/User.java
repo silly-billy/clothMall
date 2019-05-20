@@ -43,7 +43,7 @@ public class User extends BaseModel {
      * 用户余额
      */
     @TableField("user_balance")
-    private String userBalance;
+    private Double userBalance;
     /**
      * 用户收货地址
      */

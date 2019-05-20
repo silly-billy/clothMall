@@ -39,4 +39,24 @@ public class UserServiceImpl implements UserService {
                 .eq("user_password",user.getUserPassword());
         return userManager.selectOne(queryWrapper);
     }
+
+    @Override
+    public void addAddress(User user) {
+        userManager.updateById(user);
+    }
+
+    @Override
+    public void addBalance(User user) {
+        userManager.updateById(user);
+    }
+
+    @Override
+    public User queryById(int id) {
+        return userManager.selectById(id);
+    }
+
+    @Override
+    public void UpdateByUserInfo(User user) {
+        userManager.updateById(user);
+    }
 }

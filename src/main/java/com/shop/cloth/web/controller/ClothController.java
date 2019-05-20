@@ -5,6 +5,7 @@ import com.shop.cloth.core.dal.domain.Cloth;
 import com.shop.cloth.core.dal.domain.User;
 import com.shop.cloth.core.service.CartService;
 import com.shop.cloth.core.service.ClothService;
+import com.shop.cloth.core.service.UserService;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -31,6 +32,8 @@ public class ClothController {
     private ClothService clothService;
     @Resource
     private CartService cartService;
+    @Resource
+    private UserService userService;
 
 
     /**
@@ -60,6 +63,7 @@ public class ClothController {
         if(StringUtils.isEmpty(detailId)){
             return "index";
         }
+        model.addAttribute("soldWell",clothService.SortBySoldAmount().getRecords());
         if(detailId.equals("1")){
             model.addAttribute("agori","热卖服装");
         }else if(detailId.equals("2")){
@@ -125,9 +129,11 @@ public class ClothController {
     @RequestMapping(method = RequestMethod.GET,value = "/checkout")
     public String getCheckOut(Model model, HttpSession session)
     {
-        model.addAttribute("subPrice",cartService.CaculatePrice());
         if(session.getAttribute("userInfo")==null||session.getAttribute("userInfo")=="")
             return "index";
+        String str = session.getAttribute("userInfo").toString();
+        int userId = Integer.parseInt(str.substring(str.indexOf("=")+1,str.indexOf(",")));
+        model.addAttribute("subPrice",cartService.CaculatePrice(userId));
         return "checkout";
 
     }
@@ -180,7 +186,21 @@ public class ClothController {
         return "contact";
     }
 
+    @RequestMapping(method = RequestMethod.GET,value = "/money")
+    public String getMoney(HttpSession session)
+    {
+        if(session.getAttribute("userInfo")==null||session.getAttribute("userInfo")=="")
+            return "index";
+        return "money";
+    }
 
+    /**
+     * @Author sillybilly
+     * @Description  服装分页判断
+     * @Date 2019/5/18 11:31
+     * @Param [count, current, categoryid]
+     * @return com.baomidou.mybatisplus.plugins.Page<com.shop.cloth.core.dal.domain.Cloth>
+     */
     @RequestMapping(method = RequestMethod.GET,value = "/GoCloth")
     @ResponseBody
     public Page<Cloth> getGoClothList(int count,int current,String categoryid)
@@ -250,6 +270,16 @@ public class ClothController {
         }
     }
 
-
+    @RequestMapping(method = RequestMethod.GET,value = "/userInfo")
+    public String userInfo(HttpSession session)
+    {
+        if(session.getAttribute("userInfo")==null||session.getAttribute("userInfo")=="")
+            return "index";
+        String str = session.getAttribute("userInfo").toString();
+        int userId = Integer.parseInt(str.substring(str.indexOf("=")+1,str.indexOf(",")));
+        User user = userService.queryById(userId);
+        session.setAttribute("userInfo",user);
+        return "userInfo";
+    }
 
 }

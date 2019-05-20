@@ -9,6 +9,7 @@ import com.shop.cloth.core.service.ClothService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 
 
 /**
@@ -78,5 +79,16 @@ public class ClothServiceImpl implements ClothService{
         return clothManager.selectById(id);
     }
 
+    @Override
+    public void updateClothInfo(Cloth cloth) {
+        clothManager.updateById(cloth);
+    }
+
+    @Override
+    public Page<Cloth> SortBySoldAmount() {
+        Wrapper<Cloth> queryClothInfo = new EntityWrapper<>();
+        queryClothInfo.eq("is_delete", 0).orderBy("cloth_sellamount").last("desc");
+        return clothManager.selectPage(new Page(1, 3), queryClothInfo);
+    }
 
 }

@@ -13,6 +13,7 @@
                     <result column="cloth_picurl" property="clothPicurl"/>
                     <result column="cloth_name" property="clothName"/>
                     <result column="cloth_stock" property="clothStock"/>
+                    <result column="cloth_sellamount" property="clothSellamount"/>
                     <result column="cloth_ishotsell" property="clothIshotsell"/>
                     <result column="is_delete" property="isDelete"/>
                     <result column="cloth_bigpicurl" property="clothBigpicurl"/>
@@ -20,6 +21,6 @@
         </resultMap>
         <!-- 通用查询结果列 -->
         <sql id="Base_Column_List">
-       id,cloth_sex,cloth_brand,cloth_size,cloth_color,cloth_price,cloth_picurl,cloth_name,cloth_stock,cloth_ishotsell,is_delete,cloth_bigpicurl,cloth_smallpicurl
+       id,cloth_sex,cloth_brand,cloth_size,cloth_color,cloth_price,cloth_picurl,cloth_name,cloth_stock,cloth_sellamount,cloth_ishotsell,is_delete,cloth_bigpicurl,cloth_smallpicurl
         </sql>
 </mapper>

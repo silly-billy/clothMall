@@ -62,10 +62,11 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 					<li><a th:href="@{/login}">Login</a></li>
 					<li><a th:href="@{/register}">Register</a></li>
 					<li th:if="${session.userInfo} ne null"><a th:href="@{/checkout}">Checkout</a></li>
-					<li class="dropdown mega-dropdown active">
+					<li th:if="${session.userInfo} ne null">
 						<input id = "sessionUser" type="hidden" th:value="${session.userInfo}" />
-						<a id = "image-radius" class="color1 dropdown-toggle"  data-toggle="dropdown" title="用户信息"><img th:src="@{/images/userIcon.png}" alt="用户"/><span class="caret"></span></a>
+						<a href="javascript:void(0);" id = "image-radius" class="color1 dropdown-toggle"  data-toggle="dropdown" title="用户信息">当前用户：<span th:text="${session.userInfo.getUserName()}"></span></a>
 					</li>
+					<li th:if="${session.userInfo} ne null"><a th:href="@{/user/UserExit}"><span th:text="退出"></span></a></li>
 				</ul>
 			</div>
 
@@ -337,8 +338,8 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 				 <div class="clearfix"></div>
 				</div>
 				<h4 class="quick">Quick Overview:</h4>
-				<p class="quick_desc"> 累计销售：<span th:text="${clothInfo.clothStock}"></span>&nbsp;&nbsp;剩余库存：<span th:text="${clothInfo.clothStock}"></span></p>
-		<p class="quick_desc">累计评价（<span th:text="${clothInfo.clothPrice}"></span>）&nbsp;&nbsp;剩余库存：<span th:text="${clothInfo.clothStock}"></span></p>
+				<p class="quick_desc"> 累计销售：<span th:text="${clothInfo.clothSellamount}"></span>&nbsp;&nbsp;剩余库存：<span th:text="${clothInfo.clothStock}"></span></p>
+		<p class="quick_desc">累计评价（<span th:text="${clothInfo.clothPrice}"></span>）&nbsp;&nbsp;<span style="color: red" th:text="六月服装庆典"></span></p>
 			    <div class="wish-list">
 				 	<ul>
 				 		<li class="wish"><a th:href="@{/wishlist}"><span class="glyphicon glyphicon-check" aria-hidden="true"></span>Add to Wishlist</a></li>
@@ -352,7 +353,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 									<input style="width: 50px; height: 32px; border: 2px white;" type="button" value="+" onclick="add(this)" />
 								</div>
 							</div>
-
+					<input type="hidden" id="cartClothid" th:value="${clothInfo.id}" />
 				 <input type="hidden" id="cartSmallpicurl" th:value="${clothInfo.clothSmallpicurl}" />
 		         <input type="hidden" id="cartClothname" th:value="${clothInfo.clothName}" />
 		        <input type="hidden" id="cartClothbrand" th:value="${clothInfo.clothBrand}" />
@@ -652,6 +653,7 @@ $(window).load(function() {
 		var cartClothbrand = $('#cartClothbrand').val()
 		var cartClothprice = $('#cartClothprice').val()
 		var cartClothnum = $('#num').val()
+		var cartClothid = $('#cartClothid').val()
 		$.ajax({
 			type: 'POST',
 			url: '/addcheckout' ,
@@ -660,15 +662,18 @@ $(window).load(function() {
 				cartClothname:cartClothname,
 				cartClothbrand:cartClothbrand,
 				cartClothprice:cartClothprice,
-				cartClothnum:cartClothnum
+				cartClothnum:cartClothnum,
+				cartClothid:cartClothid
 			},
 			cache: false,
 			dataType: 'json',
 			success:function(data){
 				if(data==0){
 					alert("添加成功")
-				}
-				else{
+					location.href = '/single?clothId='+cartClothid
+				}else if(data==2){
+					alert("当前商品库存不足，感谢您的关注！")
+				} else{
 					alert("添加失败,请确认已经登录")
 					location.href = "/login"
 				}
@@ -714,7 +719,7 @@ $(window).load(function() {
 				alert("请先登录")
 				location.href = '/login'
 			}
-			else location.href = '/register'
+			else location.href = '/userInfo'
 		})
 	})
 </script>

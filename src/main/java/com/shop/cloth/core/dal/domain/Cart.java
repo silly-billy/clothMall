@@ -64,5 +64,10 @@ public class Cart extends BaseModel {
      */
     @TableField("cart_clothnum")
     private Integer cartClothnum;
+    /**
+     * 装服id
+     */
+    @TableField("cart_clothid")
+    private Integer cartClothid;
 
 }

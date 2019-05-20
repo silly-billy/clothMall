@@ -17,8 +17,8 @@ public class Generator {
     public static final String PASSWORD = "123456";
 
     public static String[] tables = {
-            "cloth"
-            //"order",
+            "cloth",
+            "orders"
             //"orderitem",
             //"user",
             //"cart"

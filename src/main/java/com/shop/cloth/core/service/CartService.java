@@ -14,11 +14,16 @@ public interface CartService {
     void addCartInfo(Cart cart);
 
     /*遍历购物车信息*/
-    Page<Cart> queryCartInfo(int count);
+    Page<Cart> queryCartInfo(int count,int userId);
 
     /*移除购物车信息*/
     void deleteCartInfo(int id);
 
     /*购物车总价查询*/
-    Double CaculatePrice();
+    Double CaculatePrice(int userId);
+
+    /*根据id查询购物车信息*/
+    Cart queryCartInfoById(int id);
+
+
 }

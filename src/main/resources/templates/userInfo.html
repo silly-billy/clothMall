@@ -1,0 +1,636 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Login</title>
+    <link th:href="@{css/bootstrap.css}" rel="stylesheet" type="text/css" media="all" />
+    <!-- Custom Theme files -->
+    <!--theme-style-->
+    <link th:href="@{css/style.css}" rel="stylesheet" type="text/css" media="all" />
+    <!--//theme-style-->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="keywords" content="Shopin Responsive web template, Bootstrap Web Templates, Flat Web Templates, AndroId Compatible web template,
+Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, SonyEricsson, Motorola web design" />
+    <script type="application/x-javascript"> addEventListener("load", function() { setTimeout(hideURLbar, 0); }, false); function hideURLbar(){ window.scrollTo(0,1); } </script>
+    <!--theme-style-->
+    <link th:href="@{css/style4.css}" rel="stylesheet" type="text/css" media="all" />
+    <link th:href="@{/order/admin.css}" rel="stylesheet" type="text/css">
+    <link th:href="@{/order/amazeui.css}" rel="stylesheet" type="text/css">
+    <link th:href="@{/order/personal.css}" rel="stylesheet" type="text/css">
+    <link th:href="@{/order/orstyle.css}" rel="stylesheet" type="text/css">
+    <!--//theme-style-->
+    <script th:src="@{js/jquery.min.js}"></script>
+    <!--- start-rate---->
+    <script th:src="@{js/jstarbox.js}"></script>
+    <link rel="stylesheet" th:href="@{css/jstarbox.css}" type="text/css" media="screen" charset="utf-8" />
+    <script type="text/javascript">
+        jQuery(function() {
+            jQuery('.starbox').each(function() {
+                var starbox = jQuery(this);
+                starbox.starbox({
+                    average: starbox.attr('data-start-value'),
+                    changeable: starbox.hasClass('unchangeable') ? false : starbox.hasClass('clickonce') ? 'once' : true,
+                    ghosting: starbox.hasClass('ghosting'),
+                    autoUpdateAverage: starbox.hasClass('autoupdate'),
+                    buttons: starbox.hasClass('smooth') ? false : starbox.attr('data-button-count') || 5,
+                    stars: starbox.attr('data-star-count') || 5
+                }).bind('starbox-value-changed', function(event, value) {
+                    if(starbox.hasClass('random')) {
+                        var val = Math.random();
+                        starbox.next().text(' '+val);
+                        return val;
+                    }
+                })
+            });
+        });
+    </script>
+    <!---//End-rate---->
+    <script language="javascript" th:src="@{js/province.js}" type="text/javascript" charset="utf-8"></script>
+
+<style>
+    #login_click{ margin-top:32px; height:40px;}
+    #login_click a
+    {
+        width: 10px;
+        height: 15px;
+        text-decoration:none;
+        background:#2f435e;
+        color:#f2f2f2;
+
+        padding: 10px 30px 10px 30px;
+        font-size:16px;
+        font-family: 微软雅黑,宋体,Arial,Helvetica,Verdana,sans-serif;
+        font-weight:bold;
+        border-radius:3px;
+
+        -webkit-transition:all linear 0.30s;
+        -moz-transition:all linear 0.30s;
+        transition:all linear 0.30s;
+
+    }
+    #login_click a:hover { background:#385f9e; }
+</style>
+</head>
+<body onload='getProvince()'>
+
+<!--header-->
+<div class="header">
+    <div class="container">
+        <div class="head">
+            <div class=" logo">
+                <a th:href="@{/}"><img src="images/logo.png" alt=""></a>
+            </div>
+        </div>
+    </div>
+    <div class="header-top">
+        <div class="container">
+            <div class="col-sm-5 col-md-offset-2  header-login">
+                <ul >
+                    <li><a th:href="@{/login}">Login</a></li>
+                    <li><a th:href="@{/register}">Register</a></li>
+                    <li th:if="${session.userInfo} ne null"><a th:href="@{/checkout}">Checkout</a></li>
+                    <li th:if="${session.userInfo} ne null">
+                        <input id = "sessionUser" type="hidden" th:value="${session.userInfo}" />
+                        <a href="javascript:void(0);" id = "image-radius" class="color1 dropdown-toggle"  data-toggle="dropdown" title="用户信息">当前用户：<span th:text="${session.userInfo.getUserName()}"></span></a>
+                    </li>
+                    <li th:if="${session.userInfo} ne null"><a th:href="@{/user/UserExit}"><span th:text="退出"></span></a></li>
+                </ul>
+            </div>
+
+            <div class="col-sm-5 header-social">
+                <ul >
+                    <li><a href="#"><i></i></a></li>
+                    <li><a href="#"><i class="ic1"></i></a></li>
+                    <li><a href="#"><i class="ic2"></i></a></li>
+                    <li><a href="#"><i class="ic3"></i></a></li>
+                    <li><a href="#"><i class="ic4"></i></a></li>
+                </ul>
+
+            </div>
+            <div class="clearfix"> </div>
+        </div>
+    </div>
+
+    <div class="container">
+
+        <div class="head-top">
+
+            <div class="col-sm-8 col-md-offset-2 h_menu4">
+                <nav class="navbar nav_bottom" role="navigation">
+
+                    <!-- Brand and toggle get grouped for better mobile display -->
+                    <div class="navbar-header nav_2">
+                        <button type="button" class="navbar-toggle collapsed navbar-toggle1" data-toggle="collapse" data-target="#bs-megadropdown-tabs">
+                            <span class="sr-only">Toggle navigation</span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                        </button>
+
+                    </div>
+                    <!-- Collect the nav links, forms, and other content for toggling -->
+                    <div class="collapse navbar-collapse" id="bs-megadropdown-tabs">
+                        <ul class="nav navbar-nav nav_1">
+                            <li><a class="color" th:href="@{/}">主页</a></li>
+
+                            <li class="dropdown mega-dropdown active">
+                                <a class="color1 dropdown-toggle" href="#" data-toggle="dropdown">Women<span class="caret"></span></a>
+                                <div class="dropdown-menu ">
+                                    <div class="menu-top">
+                                        <div class="col1">
+                                            <div class="h_nav">
+                                                <h4>Submenu1</h4>
+                                                <ul>
+                                                    <li><a href="product.html">Accessories</a></li>
+                                                    <li><a href="product.html">Bags</a></li>
+                                                    <li><a href="product.html">Caps & Hats</a></li>
+                                                    <li><a href="product.html">Hoodies & Sweatshirts</a></li>
+
+                                                </ul>
+                                            </div>
+                                        </div>
+                                        <div class="col1">
+                                            <div class="h_nav">
+                                                <h4>Submenu2</h4>
+                                                <ul>
+                                                    <li><a href="product.html">Jackets & Coats</a></li>
+                                                    <li><a href="product.html">Jeans</a></li>
+                                                    <li><a href="product.html">Jewellery</a></li>
+                                                    <li><a href="product.html">Jumpers & Cardigans</a></li>
+                                                    <li><a href="product.html">Leather Jackets</a></li>
+                                                    <li><a href="product.html">Long Sleeve T-Shirts</a></li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                        <div class="col1">
+                                            <div class="h_nav">
+                                                <h4>Submenu3</h4>
+                                                <ul>
+                                                    <li><a href="product.html">Shirts</a></li>
+                                                    <li><a href="product.html">Shoes, Boots & Trainers</a></li>
+                                                    <li><a href="product.html">Sunglasses</a></li>
+                                                    <li><a href="product.html">Sweatpants</a></li>
+                                                    <li><a href="product.html">Swimwear</a></li>
+                                                    <li><a href="product.html">Trousers & Chinos</a></li>
+
+                                                </ul>
+
+                                            </div>
+                                        </div>
+                                        <div class="col1">
+                                            <div class="h_nav">
+                                                <h4>Submenu4</h4>
+                                                <ul>
+                                                    <li><a href="product.html">T-Shirts</a></li>
+                                                    <li><a href="product.html">Underwear & Socks</a></li>
+                                                    <li><a href="product.html">Vests</a></li>
+                                                    <li><a href="product.html">Jackets & Coats</a></li>
+                                                    <li><a href="product.html">Jeans</a></li>
+                                                    <li><a href="product.html">Jewellery</a></li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                        <div class="col1 col5">
+                                            <img src="images/me.png" class="img-responsive" alt="">
+                                        </div>
+                                        <div class="clearfix"></div>
+                                    </div>
+                                </div>
+                            </li>
+                            <li class="dropdown mega-dropdown active">
+                                <a class="color2 dropdown-toggle" href="#" data-toggle="dropdown">Men<span class="caret"></span></a>
+                                <div class="dropdown-menu mega-dropdown-menu">
+                                    <div class="menu-top">
+                                        <div class="col1">
+                                            <div class="h_nav">
+                                                <h4>Submenu1</h4>
+                                                <ul>
+                                                    <li><a href="product.html">Accessories</a></li>
+                                                    <li><a href="product.html">Bags</a></li>
+                                                    <li><a href="product.html">Caps & Hats</a></li>
+                                                    <li><a href="product.html">Hoodies & Sweatshirts</a></li>
+
+                                                </ul>
+                                            </div>
+                                        </div>
+                                        <div class="col1">
+                                            <div class="h_nav">
+                                                <h4>Submenu2</h4>
+                                                <ul>
+                                                    <li><a href="product.html">Jackets & Coats</a></li>
+                                                    <li><a href="product.html">Jeans</a></li>
+                                                    <li><a href="product.html">Jewellery</a></li>
+                                                    <li><a href="product.html">Jumpers & Cardigans</a></li>
+                                                    <li><a href="product.html">Leather Jackets</a></li>
+                                                    <li><a href="product.html">Long Sleeve T-Shirts</a></li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                        <div class="col1">
+                                            <div class="h_nav">
+                                                <h4>Submenu3</h4>
+
+                                                <ul>
+                                                    <li><a href="product.html">Shirts</a></li>
+                                                    <li><a href="product.html">Shoes, Boots & Trainers</a></li>
+                                                    <li><a href="product.html">Sunglasses</a></li>
+                                                    <li><a href="product.html">Sweatpants</a></li>
+                                                    <li><a href="product.html">Swimwear</a></li>
+                                                    <li><a href="product.html">Trousers & Chinos</a></li>
+
+                                                </ul>
+
+                                            </div>
+                                        </div>
+                                        <div class="col1">
+                                            <div class="h_nav">
+                                                <h4>Submenu4</h4>
+                                                <ul>
+                                                    <li><a href="product.html">T-Shirts</a></li>
+                                                    <li><a href="product.html">Underwear & Socks</a></li>
+                                                    <li><a href="product.html">Vests</a></li>
+                                                    <li><a href="product.html">Jackets & Coats</a></li>
+                                                    <li><a href="product.html">Jeans</a></li>
+                                                    <li><a href="product.html">Jewellery</a></li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                        <div class="col1 col5">
+                                            <img src="images/me1.png" class="img-responsive" alt="">
+                                        </div>
+                                        <div class="clearfix"></div>
+                                    </div>
+                                </div>
+                            </li>
+                            <li><a class="color3" href="product.html">Sale</a></li>
+                            <li><a class="color4" href="404.html">About</a></li>
+                            <li><a class="color5" href="typo.html">Short Codes</a></li>
+                            <li ><a class="color6" href="contact.html">Contact</a></li>
+                        </ul>
+                    </div><!-- /.navbar-collapse -->
+
+                </nav>
+            </div>
+            <div class="col-sm-2 search-right">
+                <ul class="heart">
+                    <li>
+                        <a th:href="@{/wishlist}" >
+                            <span class="glyphicon glyphicon-heart" aria-hidden="true"></span>
+                        </a></li>
+                    <li><a class="play-icon popup-with-zoom-anim" href="#small-dialog"><i class="glyphicon glyphicon-search"> </i></a></li>
+                </ul>
+                <div th:if="${session.userInfo} ne null">
+                    <div class="cart box_1">
+                        <a th:href="@{/checkout}">
+                            <h3> <div class="total">
+                            </div>
+                                <img src="images/cart.png" alt=""/></h3>
+                        </a>
+                    </div>
+                </div>
+                <div class="clearfix"> </div>
+
+                <!----->
+
+                <!---pop-up-box---->
+                <link href="css/popuo-box.css" rel="stylesheet" type="text/css" media="all"/>
+                <script src="js/jquery.magnific-popup.js" type="text/javascript"></script>
+                <!---//pop-up-box---->
+                <div id="small-dialog" class="mfp-hide">
+                    <div class="search-top">
+                        <div class="login-search">
+                            <input type="submit" value="">
+                            <input type="text" value="Search.." onfocus="this.value = '';" onblur="if (this.value == '') {this.value = 'Search..';}">
+                        </div>
+                        <p>Shopin</p>
+                    </div>
+                </div>
+                <script>
+                    $(document).ready(function() {
+                        $('.popup-with-zoom-anim').magnificPopup({
+                            type: 'inline',
+                            fixedContentPos: false,
+                            fixedBgPos: true,
+                            overflowY: 'auto',
+                            closeBtnInside: true,
+                            preloader: false,
+                            midClick: true,
+                            removalDelay: 300,
+                            mainClass: 'my-mfp-zoom-in'
+                        });
+
+                    });
+                </script>
+                <!----->
+            </div>
+            <div class="clearfix"></div>
+        </div>
+    </div>
+</div>
+<!--banner-->
+<div class="banner-top">
+    <div class="container">
+        <h1>userInfo</h1>
+        <em></em>
+        <h2><a th:href="@{/}">主页</a><label>/</label>userInfo</a></h2>
+    </div>
+</div>
+
+
+
+<!--//Info-->
+<div class="tab-head">
+    <nav class="nav-sidebar">
+        <ul class="nav tabs">
+            <li class="active"><a href="#tab1" data-toggle="tab">UserInfo Description</a></li>
+            <li class=""><a href="#tab2" data-toggle="tab">Balance Information</a></li>
+        </ul>
+    </nav>
+    <div class="tab-content one">
+        <div class="tab-pane active text-style" id="tab1">
+            <div class="facts" >
+                <h4 style="margin-left: 250px">用户信息详情--管理收货地址</h4>
+                <div style="height: 50px"></div>
+                <ul style="margin-left: 150px">
+                    <li><div style="height: 50px">用户名：&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
+                        <input type="text" th:value="${session.userInfo.userName}" readonly style="width: 24%"/></div></li>
+                    <li><div style="height: 50px">性别：&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
+                        <select name="" style="width: 24%" th:disabled="disabled">
+                                                    <option value="0" th:if="${session.userInfo.userSex} eq 0">男</option>
+                                                    <option value="1" th:if="${session.userInfo.userSex} eq 1">女</option>
+                                                </select></div>
+                    </li>
+                    <li><div style="height: 50px">剩余金额：&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
+                        <input type="text" th:value="${session.userInfo.userBalance}" readonly style="width: 19%"/>&nbsp&nbsp&nbsp<button th:text="充值" onclick="addMoney()"></button></div></li>
+                    <li><div style="height: 50px">联系方式：&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
+                    <input type="text" th:value="${session.userInfo.userPhone}" readonly style="width: 24%"/></div></li>
+                    <li><div style="height: 50px">当前收获地址：&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
+                        <input type="text" th:value="${session.userInfo.userAddress}" readonly style="width: 24%"/></div></li>
+                       <li> <div style="height: 50px"><span>请确认收获地址：</span>
+                    <select id="province" onchange="chooseProvince(this)">
+                        <option value="1">请选择省</option>
+                    </select>
+                    <select id="city" onchange="chooseCity(this)">
+                        <option value="2">请选择市</option>
+                    </select>
+                    <select id="area">
+                        <option value="3">请选择区</option>
+                    </select>
+                       </div></li>
+                <li><div style="height: 50px">&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
+                    <textarea placeholder="详细地址:（不超过20个字符）例如滆湖路永安花苑**幢301*" maxlength="20" id="AddressInfo" ></textarea></div></li>
+                    <li><div id="login_click">
+                        <a id="btlogin" href="javascript:void(0);" onclick="commit()">Commit Info</a>
+                    </div></li>
+                </ul>
+
+            </div>
+
+        </div>
+        <div class="tab-pane text-style" id="tab2">
+            <div class="user-order">
+                                <!--标题 -->
+                                <div class="am-cf am-padding">
+                                    <div class="am-fl am-cf"><strong class="am-text-danger am-text-lg">订单管理</strong> / <small>Order</small></div>
+                                </div>
+            </div>
+            <div class="am-tabs am-tabs-d2 am-margin" data-am-tabs>
+
+                <ul class="am-avg-sm-5 am-tabs-nav am-nav am-nav-tabs">
+                    <li class="am-active"><a href="#tab1">所有订单</a></li>
+
+                </ul>
+
+                <div class="am-tabs-bd">
+                    <div class="am-tab-panel am-fade am-in am-active" id="tab">
+                        <div class="order-top">
+                            <div class="th th-item">
+                                <td class="td-inner">订单号</td>
+                            </div>
+                            <div class="th th-price">
+                                <td class="td-inner">商品名称</td>
+                            </div>
+                            <div class="th th-amount">
+                                <td class="td-inner">订单总价</td>
+                            </div>
+                            <div class="th th-operation">
+                                <td class="td-inner">下单时间</td>
+                            </div>
+                            <div class="th th-status">
+                                <td class="td-inner">交易状态</td>
+                            </div>
+                            <div class="th th-change">
+                                <td class="td-inner">交易操作</td>
+                            </div>
+                        </div>
+                        <div id="showOrders">
+                        <div class="order-content">
+                                <div class="th th-item">
+                                    <td class="td-inner"> {{ todo.id }}</td>
+                                </div>
+                                <div class="th th-price">
+                                    <td class="td-inner">{{ todo.id }} </td>
+                                </div>
+                                <div class="th th-amount">
+                                    <td class="td-inner"> {{ todo.money }}</td>
+                                </div>
+                                <div class="th th-operation">
+                                    <td class="td-inner"> {{ todo.order_timeVo }}</td>
+                                </div>
+                                <div class="th th-status">
+                                    <td class="td-inner"> {{ todo.state }}</td>
+                                </div>
+                                <div class="th th-change">
+                                    <td class="td-inner"><input class="confirm" type="button" value="确认" />&nbsp<input type="button" value="取消" /></td>
+                                </div>
+                        </div>
+                        </div>
+
+                    </div>
+
+                </div>
+            </div>
+
+
+        </div>
+        </div>
+
+    </div>
+    <div class="clearfix"></div>
+</div>
+<!--brand-->
+<div class="container">
+    <div class="brand">
+        <div class="col-md-3 brand-grid">
+            <img src="images/ic.png" class="img-responsive" alt="">
+        </div>
+        <div class="col-md-3 brand-grid">
+            <img src="images/ic1.png" class="img-responsive" alt="">
+        </div>
+        <div class="col-md-3 brand-grid">
+            <img src="images/ic2.png" class="img-responsive" alt="">
+        </div>
+        <div class="col-md-3 brand-grid">
+            <img src="images/ic3.png" class="img-responsive" alt="">
+        </div>
+        <div class="clearfix"></div>
+    </div>
+</div>
+<!--//brand-->
+
+
+<!--//footer-->
+<div class="footer">
+    <div class="footer-middle">
+        <div class="container">
+            <div class="col-md-3 footer-middle-in">
+                <a href="index.html"><img src="images/log.png" alt=""></a>
+                <p>Suspendisse sed accumsan risus. Curabitur rhoncus, elit vel tincidunt elementum, nunc urna tristique nisi, in interdum libero magna tristique ante. adipiscing varius. Vestibulum dolor lorem.</p>
+            </div>
+
+            <div class="col-md-3 footer-middle-in">
+                <h6>Information</h6>
+                <ul class=" in">
+                    <li><a href="404.html">About</a></li>
+                    <li><a href="contact.html">Contact Us</a></li>
+                    <li><a href="#">Returns</a></li>
+                    <li><a href="contact.html">Site Map</a></li>
+                </ul>
+                <ul class="in in1">
+                    <li><a href="#">Order History</a></li>
+                    <li><a href="wishlist.html">Wish List</a></li>
+                    <li><a href="login.html">Login</a></li>
+                </ul>
+                <div class="clearfix"></div>
+            </div>
+            <div class="col-md-3 footer-middle-in">
+                <h6>Tags</h6>
+                <ul class="tag-in">
+                    <li><a href="#">Lorem</a></li>
+                    <li><a href="#">Sed</a></li>
+                    <li><a href="#">Ipsum</a></li>
+                    <li><a href="#">Contrary</a></li>
+                    <li><a href="#">Chunk</a></li>
+                    <li><a href="#">Amet</a></li>
+                    <li><a href="#">Omnis</a></li>
+                </ul>
+            </div>
+            <div class="col-md-3 footer-middle-in">
+                <h6>Newsletter</h6>
+                <span>Sign up for News Letter</span>
+                <form>
+                    <input type="text" value="Enter your E-mail" onfocus="this.value='';" onblur="if (this.value == '') {this.value ='Enter your E-mail';}">
+                    <input type="submit" value="Subscribe">
+                </form>
+            </div>
+            <div class="clearfix"> </div>
+        </div>
+    </div>
+    <div class="footer-bottom">
+        <div class="container">
+            <ul class="footer-bottom-top">
+                <li><a href="#"><img src="images/f1.png" class="img-responsive" alt=""></a></li>
+                <li><a href="#"><img src="images/f2.png" class="img-responsive" alt=""></a></li>
+                <li><a href="#"><img src="images/f3.png" class="img-responsive" alt=""></a></li>
+            </ul>
+            <p class="footer-class">Copyright &copy; 2016.Company name All rights reserved.More Templates <a href="http://www.cssmoban.com/" target="_blank" title="模板之家">模板之家</a> - Collect from <a href="http://www.cssmoban.com/" title="网页模板" target="_blank">网页模板</a></p>
+            <div class="clearfix"> </div>
+        </div>
+    </div>
+</div>
+<!--//footer-->
+
+<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+
+<script th:src="@{js/simpleCart.min.js}"> </script>
+<!-- slide -->
+<script th:src="@{js/bootstrap.min.js}"></script>
+<script type="text/javascript">
+    $(function(){
+        $('#image-radius').click(function(){
+            var status = $('#sessionUser').val()
+
+            if(status == '')
+            {
+                alert("请先登录")
+                location.href = '/login'
+            }
+            else location.href = '/userInfo'
+        })
+    })
+</script>
+<script>
+    function commit() {
+        var province = $('#province').find("option:selected").text()
+        var city = $('#city').find("option:selected").text()
+        var area = $('#area').find("option:selected").text()
+        var detail = $('#AddressInfo').val()
+        console.log(province+","+city+","+area+","+detail)
+        if(province =="请选择省" || city=="请选择市" || area=="请选择区"){
+            alert("请选择正确的收获地址")
+            return
+        }
+        if(detail == ''){
+            $('#AddressInfo').focus()
+            alert("请填写详细地址！")
+            return
+        }
+        $.ajax({
+            type : "post",
+            url : "/user/conformAddress",
+            data : {
+                province:province,
+                city:city,
+                area:area,
+                detail:detail
+            },
+            cache: false,
+            dataType: 'json',
+            success : function(message) {
+                alert("设置添加地址成功")
+                location.href = '/userInfo'
+            }
+        })
+    }
+
+    function addMoney() {
+       location.href = '/money'
+    }
+</script>
+
+<script>
+    $(document).ready(function(){
+        $('#showOrders').html("")
+        $.ajax({
+            type: "get",
+            url: "/order/showOrderInfo",
+            success: function (msg) {
+                console.log(msg)
+                var show = ''
+                for(var i = 0; i < msg.length;i++){
+                    show += '<div class="order-content">' +
+                            '<div class="th th-item"><td class="td-inner">'+msg[i].orderNum+'</td></div>' +
+                            '<div class="th th-price"><td class="td-inner">'+msg[i].clothName+'</td></div>' +
+                            '<div class="th th-amount"><td class="td-inner">'+msg[i].cartSubprice+'</td></div>' +
+                            '<div class="th th-operation"><td class="td-inner">'+msg[i].orderCurtime+'</td></div>'
+                            if(msg[i].orderItemstatus == 0){show += '<div class="th th-status"><td class="td-inner">已付款</td></div>'}
+                            else if(msg[i].orderItemstatus == 1) {show += '<div class="th th-status"><td class="td-inner">已发货</td></div>'}
+                            else if(msg[i].orderItemstatus == 2) {show += '<div class="th th-status"><td class="td-inner">待确认</td></div>'}
+                            else if(msg[i].orderItemstatus == 3) {show += '<div class="th th-status"><td class="td-inner">已完成</td></div>'}
+                            else if(msg[i].orderItemstatus == 4) {show += '<div class="th th-status"><td class="td-inner">已取消</td></div>'}
+                            show += '<div class="th th-change">' +
+                                    '<td class="td-inner"><input class="confirm" type="button" value="确认" />&nbsp<input class="cancel" type="button" value="取消" /></td>' +
+                                    '</div></div>'
+
+                }
+                $('#showOrders').append(show)
+            }
+        })
+    });
+</script>
+</body>
+
+
+
+
+</html>

@@ -17,4 +17,16 @@ public interface UserService {
 
     /*登录信息匹配*/
     User matchUserInfo(User user);
+
+    /*地址信息添加*/
+    void addAddress(User user);
+
+    /*金钱充值*/
+    void addBalance(User user);
+
+    /*根据id查询用户信息*/
+    User queryById(int id);
+
+    /*修改用户信息*/
+    void UpdateByUserInfo(User user);
 }

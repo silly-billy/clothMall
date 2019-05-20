@@ -67,10 +67,11 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                     <li><a th:href="@{/login}">Login</a></li>
                     <li><a th:href="@{/register}">Register</a></li>
                     <li th:if="${session.userInfo} ne null"><a th:href="@{/checkout}">Checkout</a></li>
-                    <li class="dropdown mega-dropdown active">
+                    <li th:if="${session.userInfo} ne null">
                         <input id = "sessionUser" type="hidden" th:value="${session.userInfo}" />
-                        <a id = "image-radius" class="color1 dropdown-toggle"  data-toggle="dropdown" title="用户信息"><img th:src="@{/images/userIcon.png}" alt="用户"/><span class="caret"></span></a>
+                        <a href="javascript:void(0);" id = "image-radius" class="color1 dropdown-toggle"  data-toggle="dropdown" title="用户信息">当前用户：<span th:text="${session.userInfo.getUserName()}"></span></a>
                     </li>
+                    <li th:if="${session.userInfo} ne null"><a th:href="@{/user/UserExit}"><span th:text="退出"></span></a></li>
                 </ul>
             </div>
 
@@ -474,13 +475,13 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                     '<th>Prices</th><th >Number </th><th>SubPrice</th></tr>'
                 for (var i = 0; i < msg.records.length; i++) {
                     show += '<tr class="cart-header">' +
-                        '<td class="ring-in"><a href="#" class="at-in"><img src="images/' + cartList[i].cartSmallpicurl + '" class="img-responsive" alt=""></a>' +
+                        '<td class="ring-in"><a href="javascript:void(0);" class="at-in" onclick="Jumpto(\''+cartList[i].cartClothid+'\')"><img src="images/' + cartList[i].cartSmallpicurl + '" class="img-responsive" alt=""></a>' +
                         '<div class="sed"><h5><a href="#">' + cartList[i].cartClothname + '</a></h5>' +
                         '<p>' + cartList[i].cartClothbrand + ' </p></div>' +
                         '<div class="clearfix"> </div><a class="close3" href="/removeCartInfo?id=' + cartList[i].id + '"></a></td><td>' + cartList[i].cartClothprice + '</td>' +
                         '<td> <span style="width: 50px; height: 32px; border: 2px white;">'+cartList[i].cartClothnum+'</span>'+
                         '</td><td class="item_price">' + cartList[i].cartClothprice*cartList[i].cartClothnum + '</td>' +
-                        '<td><div class="produced"><a href="#" class="hvr-skew-backward">Produced To Buy</a></div></td></tr>'
+                        '<td><div class="produced"><a href="javascript:void(0);" class="hvr-skew-backward" onclick="buy(\''+cartList[i].id+'\')">Produced To Buy</a></div></td></tr>'
                 }
                 show += '</table>'
                 $('.table-responsive').append(show)
@@ -515,13 +516,13 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                     '<th>Prices</th><th >Number </th><th>SubPrice</th></tr>'
                 for (var i = 0; i < msg.records.length; i++) {
                     show += '<tr class="cart-header">' +
-                        '<td class="ring-in"><a href="#" class="at-in"><img src="images/' + cartList[i].cartSmallpicurl + '" class="img-responsive" alt=""></a>' +
+                        '<td class="ring-in"><a href="javascript:void(0);" class="at-in" onclick="Jumpto(\''+cartList[i].cartClothid+'\')"><img src="images/' + cartList[i].cartSmallpicurl + '" class="img-responsive" alt=""></a>' +
                         '<div class="sed"><h5><a href="#">' + cartList[i].cartClothname + '</a></h5>' +
                         '<p>' + cartList[i].cartClothbrand + ' </p></div>' +
                         '<div class="clearfix"> </div><a class="close3" href="/removeCartInfo?id=' + cartList[i].id + '"> </a></td><td>' + cartList[i].cartClothprice + '</td>' +
                         '<td> <span style="width: 50px; height: 32px; border: 2px white;">'+cartList[i].cartClothnum+'</span>'+
                         '</td><td class="item_price">' + cartList[i].cartClothprice*cartList[i].cartClothnum + '</td>' +
-                        '<td><div class="produced"><a href="#" class="hvr-skew-backward">Produced To Buy</a></div></td></tr>'
+                        '<td><div class="produced"><a href="javascript:void(0);" class="hvr-skew-backward" onclick="buy(\''+cartList[i].id+'\')">Produced To Buy</a></div></td></tr>'
                 }
                 show += '</table>'
                 $('.table-responsive').append(show)
@@ -550,9 +551,41 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                 alert("请先登录")
                 location.href = '/login'
             }
-            else location.href = '/register'
+            else location.href = '/userInfo'
         })
     })
+
+    function buy(obj) {
+        var id = obj
+        $.ajax({
+            type : "get",
+            url : "/order/buySimpleCart",
+            data : {
+                id:id
+            },
+            cache: false,
+            dataType: 'json',
+            success : function(message) {
+                if(message == 2)
+                {
+                    alert("请完善收货地址！")
+                    location.href = '/userInfo'
+                }
+                else if(message == 1){
+                    alert("余额不足，请充值！")
+                    location.href = '/money'
+                }
+                else {
+                    alert("购买成功！")
+                    location.href = '/checkout'
+                }
+            }
+        })
+    }
+
+    function Jumpto(obj) {
+        location.href = '/single?clothId='+obj
+    }
 </script>
 
 </body>
