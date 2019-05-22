@@ -12,9 +12,10 @@
                     <result column="user_address" property="userAddress"/>
                     <result column="is_delete" property="isDelete"/>
                     <result column="user_phone" property="userPhone"/>
+                    <result column="user_invest" property="userInvest"/>
         </resultMap>
         <!-- 通用查询结果列 -->
         <sql id="Base_Column_List">
-       id,user_name,user_password,user_sex,user_balance,user_address,is_delete,user_phone
+       id,user_name,user_password,user_sex,user_balance,user_address,is_delete,user_phone,user_invest
         </sql>
 </mapper>

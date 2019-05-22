@@ -114,8 +114,11 @@ public class UserController {
             User user = userService.queryById(id);
             BigDecimal bd1 = new BigDecimal(Double.toString(balance));
             BigDecimal bd2 = new BigDecimal(Double.toString(user.getUserBalance()));
+            BigDecimal bd3 = new BigDecimal(Double.toString(user.getUserInvest()));
             balance = bd1.add(bd2).doubleValue();
+            double Invest = bd1.add(bd3).doubleValue();
             user.setUserBalance(balance);
+            user.setUserInvest(Invest);
             userService.addBalance(user);
             session.setAttribute("userInfo",user);
         }

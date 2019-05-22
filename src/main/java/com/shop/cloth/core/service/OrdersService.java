@@ -16,4 +16,8 @@ public interface OrdersService {
     void addOrderInfo(Orders order);
     /*查询订单信息*/
     List<Orders> showOrders(int userId);
+    /*确认订单*/
+    boolean confirmOrder(String orderNum);
+    /*取消订单*/
+    boolean cancelOrder(String orderNum);
 }

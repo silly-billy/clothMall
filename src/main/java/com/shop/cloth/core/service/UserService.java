@@ -1,5 +1,6 @@
 package com.shop.cloth.core.service;
 
+import com.baomidou.mybatisplus.plugins.Page;
 import com.shop.cloth.core.dal.domain.User;
 
 /**
@@ -29,4 +30,16 @@ public interface UserService {
 
     /*修改用户信息*/
     void UpdateByUserInfo(User user);
+
+    /*查询所有用户*/
+    Page<User> SearchAllUserInfo(int current);
+
+    /*用户信息模糊查询*/
+    Page<User> queryAllUser(User user);
+
+    /*逻辑删除用户*/
+    boolean delUserInfo(int id);
+
+    /*解冻用户*/
+    boolean openUserInfo(int id);
 }

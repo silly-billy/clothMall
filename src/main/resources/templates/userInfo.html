@@ -423,27 +423,9 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                                 <td class="td-inner">交易操作</td>
                             </div>
                         </div>
-                        <div id="showOrders">
-                        <div class="order-content">
-                                <div class="th th-item">
-                                    <td class="td-inner"> {{ todo.id }}</td>
-                                </div>
-                                <div class="th th-price">
-                                    <td class="td-inner">{{ todo.id }} </td>
-                                </div>
-                                <div class="th th-amount">
-                                    <td class="td-inner"> {{ todo.money }}</td>
-                                </div>
-                                <div class="th th-operation">
-                                    <td class="td-inner"> {{ todo.order_timeVo }}</td>
-                                </div>
-                                <div class="th th-status">
-                                    <td class="td-inner"> {{ todo.state }}</td>
-                                </div>
-                                <div class="th th-change">
-                                    <td class="td-inner"><input class="confirm" type="button" value="确认" />&nbsp<input type="button" value="取消" /></td>
-                                </div>
                         </div>
+                        <div id="showOrders">
+
                         </div>
 
                     </div>
@@ -608,27 +590,59 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                 console.log(msg)
                 var show = ''
                 for(var i = 0; i < msg.length;i++){
-                    show += '<div class="order-content">' +
-                            '<div class="th th-item"><td class="td-inner">'+msg[i].orderNum+'</td></div>' +
-                            '<div class="th th-price"><td class="td-inner">'+msg[i].clothName+'</td></div>' +
-                            '<div class="th th-amount"><td class="td-inner">'+msg[i].cartSubprice+'</td></div>' +
-                            '<div class="th th-operation"><td class="td-inner">'+msg[i].orderCurtime+'</td></div>'
-                            if(msg[i].orderItemstatus == 0){show += '<div class="th th-status"><td class="td-inner">已付款</td></div>'}
-                            else if(msg[i].orderItemstatus == 1) {show += '<div class="th th-status"><td class="td-inner">已发货</td></div>'}
-                            else if(msg[i].orderItemstatus == 2) {show += '<div class="th th-status"><td class="td-inner">待确认</td></div>'}
-                            else if(msg[i].orderItemstatus == 3) {show += '<div class="th th-status"><td class="td-inner">已完成</td></div>'}
-                            else if(msg[i].orderItemstatus == 4) {show += '<div class="th th-status"><td class="td-inner">已取消</td></div>'}
+                    show += '<div class="order-content" style="margin-bottom: 20px">' +
+                            '<div class="th th-item"><th class="td-inner">'+msg[i].orderNum+'</th></div>' +
+                            '<div class="th th-price"><th class="td-inner">'+msg[i].clothName+'</th></div>' +
+                            '<div class="th th-amount"><th class="td-inner">'+msg[i].cartSubprice+'</th></div>' +
+                            '<div class="th th-operation"><th class="td-inner">'+msg[i].orderCurtime+'</th></div>'
+                            if(msg[i].orderItemstatus == 0){show += '<div class="th th-status"><th class="td-inner">已付款</th></div>'}
+                            else if(msg[i].orderItemstatus == 1) {show += '<div class="th th-status"><th class="td-inner">已发货</th></div>'}
+                            else if(msg[i].orderItemstatus == 2) {show += '<div class="th th-status"><th class="td-inner">待确认</th></div>'}
+                            else if(msg[i].orderItemstatus == 3) {show += '<div class="th th-status"><th class="td-inner">已完成</th></div>'}
+                            else if(msg[i].orderItemstatus == 4) {show += '<div class="th th-status"><th class="td-inner">已取消</th></div>'}
                             show += '<div class="th th-change">' +
-                                    '<td class="td-inner"><input class="confirm" type="button" value="确认" />&nbsp<input class="cancel" type="button" value="取消" /></td>' +
+                                    '<th class="td-inner"><a href="javascript:confirmOrder(\''+msg[i].orderNum+'\');" class="btn btn-success btn-sm">确认订单</a>' +
+                                '&nbsp<a href="javascript:cancelOrder(\''+msg[i].orderNum+'\');" class="btn btn-success btn-sm">取消</a></th>' +
                                     '</div></div>'
 
                 }
+                show += '</table>'
                 $('#showOrders').append(show)
             }
         })
     });
+
+    function confirmOrder(orderNum) {
+        $.ajax({
+            type: 'GET',
+            url: '/order/confirmOrder',
+            data: {orderNum: orderNum},
+            cache: false,
+            dataType: 'json',
+            success: function (msg){
+                if(msg == 1){alert("订单已确认完成！")
+                    location.href = '/userInfo'}
+                else alert("订单尚未完成或已确认！")
+            }
+        })
+    }
+    function cancelOrder(orderNum) {
+        $.ajax({
+            type: 'GET',
+            url: '/order/cancelOrder',
+            data: {orderNum: orderNum},
+            cache: false,
+            dataType: 'json',
+            success: function (msg){
+                if(msg == 1){alert("订单已取消")
+                    location.href = '/userInfo'}
+                else alert("请勿重复操作！")
+            }
+        })
+    }
 </script>
 </body>
+
 
 
 

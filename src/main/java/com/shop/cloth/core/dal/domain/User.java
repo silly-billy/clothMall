@@ -59,5 +59,10 @@ public class User extends BaseModel {
      */
     @TableField("user_phone")
     private String userPhone;
+    /**
+     * 用户历史充值金额
+     */
+    @TableField("user_invest")
+    private Double userInvest;
 
 }

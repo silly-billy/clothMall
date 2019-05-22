@@ -224,7 +224,7 @@
 	<h3 class="m_1">Featured Products</h3>
 	<div th:each="soldCloth:${soldWell}">
 		<ul class="grid_1">
-			<li class="grid_1-img"><img th:src="@{'images/'+ ${soldCloth.getClothSmallpicurl()}}" class="img-responsive" alt=""/></li>
+			<li class="grid_1-img"><a th:href="@{/single(clothId=${soldCloth.id})}"><img th:src="@{'images/'+ ${soldCloth.getClothSmallpicurl()}}" class="img-responsive" alt=""/></a></li>
 			<li class="grid_1-desc">
 				<h4><span th:text="${soldCloth.clothName}">Pintuck Tank</span></h4>
 				<p th:text="${soldCloth.clothPrice}">$45.55</p>

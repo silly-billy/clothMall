@@ -68,7 +68,7 @@ public class OrderController {
             order.setOrderCartid(id);
             order.setOrderClothid(cart.getCartClothid());
             order.setOrderUserid(userId);
-            order.setOrderNum(System.currentTimeMillis());
+            order.setOrderNum(String.valueOf(System.currentTimeMillis()));
             order.setOrderCurtime(DateSyncUtil.format(new Date()));
             BigDecimal bd1 = new BigDecimal(Double.toString(user.getUserBalance()));
             BigDecimal bd2 = new BigDecimal(Double.toString(cart.getCartSubprice()));
@@ -102,6 +102,26 @@ public class OrderController {
             }
             return orderVOS;
         }
+    }
+
+    @RequestMapping(method = RequestMethod.GET,value = "/confirmOrder")
+    @ResponseBody
+    public int confirmOrder(String orderNum)
+    {
+        if(ordersService.confirmOrder(orderNum)){
+            return 1;
+        }
+        else return 0;
+    }
+
+    @RequestMapping(method = RequestMethod.GET,value = "/cancelOrder")
+    @ResponseBody
+    public int cancelOrder(String orderNum)
+    {
+        if(ordersService.cancelOrder(orderNum)){
+            return 1;
+        }
+        else return 0;
     }
 
 }

@@ -34,5 +34,33 @@ public class OrdersServiceImpl implements OrdersService {
         return ordersManager.selectList(queryWrapper);
     }
 
+    @Override
+    public boolean confirmOrder(String orderNum) {
+        Wrapper<Orders> wrapper = new EntityWrapper<>();
+        wrapper.eq("order_num",orderNum);
+        Orders orders = ordersManager.selectOne(wrapper);
+        if(orders.getOrderItemstatus() == 2)
+        {
+            orders.setOrderItemstatus(3);
+            ordersManager.updateById(orders);
+            return true;
+        }
+        else return false;
+    }
+
+    @Override
+    public boolean cancelOrder(String orderNum) {
+        Wrapper<Orders> wrapper = new EntityWrapper<>();
+        wrapper.eq("order_num",orderNum);
+        Orders orders = ordersManager.selectOne(wrapper);
+        if(orders.getOrderItemstatus() != 4)
+        {
+            orders.setOrderItemstatus(4);
+            ordersManager.updateById(orders);
+            return true;
+        }
+        else return false;
+    }
+
 
 }

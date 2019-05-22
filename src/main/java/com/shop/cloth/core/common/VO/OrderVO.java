@@ -24,7 +24,7 @@ public class OrderVO {
     /**
      * 订单编号
      */
-    private Long orderNum;
+    private String orderNum;
     /**
      * 购物车id
      */

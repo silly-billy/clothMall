@@ -43,7 +43,7 @@ public class Orders extends BaseModel {
      * 订单编号
      */
     @TableField("order_num")
-    private Long orderNum;
+    private String orderNum;
     /**
      * 购物车id
      */

@@ -1,0 +1,277 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>UserManagement</title>
+    <link rel="stylesheet" th:href="@{vendor/simple-line-icons/css/simple-line-icons.css}">
+    <link rel="stylesheet" th:href="@{vendor/font-awesome/css/fontawesome-all.min.css}">
+    <link rel="stylesheet" th:href="@{css/styles.css}">
+    <link th:href="@{css/page.css}" rel="stylesheet" type="text/css" media="all"/>
+
+    <style type="text/css">
+        /** 图片动画显示和悬停放大**/
+        .photo_img{
+            cursor: pointer;
+            transition: all 1.0s;
+        }
+        .photo_img:hover{
+            transform: scale(2.6);
+        }
+    </style>
+</head>
+<body class="sidebar-fixed header-fixed">
+<div class="page-wrapper">
+    <div class="page-header">
+        <nav class="navbar page-header">
+            <a href="#" class="btn btn-link sidebar-mobile-toggle d-md-none mr-auto">
+                <i class="fa fa-bars"></i>
+            </a>
+
+            <a class="navbar-brand" href="#">
+                <img src="./imgs/logo.png" alt="logo">
+            </a>
+
+            <a href="#" class="btn btn-link sidebar-toggle d-md-down-none">
+                <i class="fa fa-bars"></i>
+            </a>
+
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item d-md-down-none">
+                    <a href="#">
+                        <i class="fa fa-bell"></i>
+                        <span class="badge badge-pill badge-danger">5</span>
+                    </a>
+                </li>
+
+                <li class="nav-item d-md-down-none">
+                    <a href="#">
+                        <i class="fa fa-envelope-open"></i>
+                        <span class="badge badge-pill badge-danger">5</span>
+                    </a>
+                </li>
+
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <img src="./imgs/avatar-1.png" class="avatar avatar-sm" alt="logo">
+                        <span class="small ml-1 d-md-down-none" th:text="${session.superuser.getSuperName()}"></span>
+                    </a>
+
+                    <div class="dropdown-menu dropdown-menu-right">
+                        <a th:href="@{/admin/logout}" class="dropdown-item">
+                            <i class="fa fa-lock"></i> Logout
+                        </a>
+                    </div>
+                </li>
+            </ul>
+        </nav>
+    </div>
+
+    <div class="main-container">
+        <div class="sidebar">
+            <nav class="sidebar-nav">
+                <ul class="nav">
+                    <li class="nav-title">Navigation</li>
+
+                    <li class="nav-item">
+                        <a th:href="@{/admin/home}" class="nav-link">
+                            <i class="icon icon-speedometer"></i> Dashboard
+                        </a>
+                    </li>
+
+                    <li class="nav-item nav-dropdown">
+                        <a href="#" class="nav-link nav-dropdown-toggle active">
+                            <i class="icon icon-target"></i>Management <i class="fa fa-caret-left"></i>
+                        </a>
+
+                        <ul class="nav-dropdown-items">
+                            <li class="nav-item">
+                                <a th:href="@{/admin/UserManage}" class="nav-link">
+                                    <i class="icon icon-target"></i> UserManage
+                                </a>
+                            </li>
+
+                            <li class="nav-item">
+                                <a th:href="@{/admin/OrderManage}" class="nav-link active">
+                                    <i class="icon icon-target"></i> OrderManage
+                                </a>
+                            </li>
+
+                            <li class="nav-item">
+                                <a th:href="@{/admin/ClothManage}" class="nav-link">
+                                    <i class="icon icon-target"></i> ClothManage
+                                </a>
+                            </li>
+
+                        </ul>
+                    </li>
+
+                </ul>
+            </nav>
+        </div>
+
+        <div class="content">
+            <div class="container-fluid">
+                <div class="panel panel-info">
+                    <h3 class="panel-heading" style="margin-bottom: 20px">订单管理</h3>
+                    <div class="panel-body">
+                        <form action="javascript:void(0);" method="post">
+                            <div class="form-group" style="width: 30%">
+                                <button class="btn btn-success" style="float: right" onclick="search()">查询</button>
+                                <input type="text" name="orderNum" id="orderNum" class="form-control" placeholder="请输入订单编号" style="width: 80%">&nbsp
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                <div id="show">
+
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+<script th:src="@{vendor/jquery/jquery.min.js}"></script>
+<script th:src="@{vendor/popper.js/popper.min.js}"></script>
+<script th:src="@{vendor/bootstrap/js/bootstrap.min.js}"></script>
+<script th:src="@{vendor/chart.js/chart.min.js}"></script>
+<script th:src="@{js/carbon.js}"></script>
+<script th:src="@{js/demo.js}"></script>
+<script>
+    $(function () {
+        $('#show').html("")
+        var show = '<table class="table table-bordered table-striped table-hover">' +
+            '<tr class="label-success" >' +
+            '<th style="width:5%">序号</th>' +
+            '<th style="width:10%">订单号</th>' +
+            '<th style="width:15%">商品名称</th>' +
+            '<th style="width:5%">数量</th>' +
+            '<th style="width:5%">订单总价</th>' +
+            '<th style="width:10%">下单时间</th>' +
+            '<th style="width:8%">交易状态</th>' +
+            '<th style="width:5%">买家</th>' +
+            '<th style="width:10%">联系电话</th>' +
+            '<th style="width:12%">收货地址</th>' +
+            '<th>操作</th>' +
+            '</tr>'
+        $.ajax({
+            type: "get",
+            url: "/admin/showOrderManage",
+            cache: false,
+            success: function (msg) {
+                for(var i=0;i < msg.length;i++){
+                    show += '<tr>' +
+                        '<td>'+(i+1)+'</td>' +
+                        '<td>'+msg[i].orderNum+'</td>' +
+                        '<td><img src="/images/'+msg[i].clothSmallpicurl+'" class="photo_img" width="50" height="50"/>' +
+                        '<span>'+msg[i].clothName+'</span></td>' +
+                        '<td>'+msg[i].cartClothnum+'</td>' +
+                        '<td>'+msg[i].cartSubprice+'</td>' +
+                        '<td>'+msg[i].orderCurtime+'</td>'
+                    if(msg[i].orderItemstatus == 0){show += '<td>已付款</td>'}
+                    else if(msg[i].orderItemstatus == 1){show += '<td>已发货</td>'}
+                    else if(msg[i].orderItemstatus == 2){show += '<td>待确认</td>'}
+                    else if(msg[i].orderItemstatus == 3){show += '<td>已完成</td>'}
+                    else if(msg[i].orderItemstatus == 4){show += '<td>已取消</td>'}
+                    show += '<td>'+msg[i].userName+'</td>' +
+                        '<td>'+msg[i].userPhone+'</td>' +
+                        '<td>'+msg[i].userAddress+'</td>' +
+                        '<td><a href="javascript:send(\''+msg[i].orderNum+'\');" class="btn btn-success btn-sm">发货</a>&nbsp' +
+                        '<a href="javascript:complete(\''+msg[i].orderNum+'\');" class="btn btn-success btn-sm">完成</a></td>' +
+                        '</tr>'
+                }
+                show += '</table>'
+                $('#show').append(show)
+            }
+        })
+    })
+
+    function search() {
+        var orderNum = $('#orderNum').val()
+        console.log(orderNum)
+        $.ajax({
+            type: 'GET',
+            url: '/admin/queryByOrderNum',
+            data: {orderNum: orderNum},
+            cache: false,
+            dataType: 'json',
+            success: function (msg) {
+                $('#show').html("")
+                var show = '<table class="table table-bordered table-striped table-hover">' +
+                    '<tr class="label-success" >' +
+                    '<th style="width:5%">序号</th>' +
+                    '<th style="width:10%">订单号</th>' +
+                    '<th style="width:15%">商品名称</th>' +
+                    '<th style="width:5%">数量</th>' +
+                    '<th style="width:5%">订单总价</th>' +
+                    '<th style="width:10%">下单时间</th>' +
+                    '<th style="width:8%">交易状态</th>' +
+                    '<th style="width:5%">买家</th>' +
+                    '<th style="width:10%">联系电话</th>' +
+                    '<th style="width:12%">收货地址</th>' +
+                    '<th>操作</th>' +
+                    '</tr>'
+                for(var i=0;i < msg.length;i++){
+                    show += '<tr>' +
+                        '<td>'+(i+1)+'</td>' +
+                        '<td>'+msg[i].orderNum+'</td>' +
+                        '<td><img src="/images/'+msg[i].clothSmallpicurl+'" class="photo_img" width="50" height="50"/>' +
+                        '<span>'+msg[i].clothName+'</span></td>' +
+                        '<td>'+msg[i].cartClothnum+'</td>' +
+                        '<td>'+msg[i].cartSubprice+'</td>' +
+                        '<td>'+msg[i].orderCurtime+'</td>'
+                    if(msg[i].orderItemstatus == 0){show += '<td>已付款</td>'}
+                    else if(msg[i].orderItemstatus == 1){show += '<td>已发货</td>'}
+                    else if(msg[i].orderItemstatus == 2){show += '<td>待确认</td>'}
+                    else if(msg[i].orderItemstatus == 3){show += '<td>已完成</td>'}
+                    else if(msg[i].orderItemstatus == 4){show += '<td>已取消</td>'}
+                    show += '<td>'+msg[i].userName+'</td>' +
+                        '<td>'+msg[i].userPhone+'</td>' +
+                        '<td>'+msg[i].userAddress+'</td>' +
+                        '<td><a href="javascript:send(\''+msg[i].orderNum+'\');" class="btn btn-success btn-sm">发货</a>&nbsp' +
+                        '<a href="javascript:complete(\''+msg[i].orderNum+'\');" class="btn btn-success btn-sm">完成</a></td>' +
+                        '</tr>'
+                }
+                show += '</table>'
+                $('#show').append(show)
+            }
+        })
+    }
+
+    function send(orderNum) {
+        $.ajax({
+            type: 'GET',
+            url: '/admin/sendCloth',
+            data: {orderNum: orderNum},
+            cache: false,
+            dataType: 'json',
+            success: function (msg){
+                if(msg == 0){alert("发货成功")
+                    location.href = '/admin/OrderManage'}
+                else alert("物品已发货！！")
+            }
+        })
+    }
+    function complete(orderNum) {
+        $.ajax({
+            type: 'GET',
+            url: '/admin/completeOrder',
+            data: {orderNum: orderNum},
+            cache: false,
+            dataType: 'json',
+            success: function (msg){
+                if(msg == 0){alert("已完成订单，待用户确认")
+                    location.href = '/admin/OrderManage'}
+                else alert("物品尚未发货或已完成！！")
+            }
+        })
+    }
+</script>
+</body>
+
+
+
+
+
+</html>
