@@ -38,17 +38,11 @@
             </a>
 
             <ul class="navbar-nav ml-auto">
-                <li class="nav-item d-md-down-none">
-                    <a href="#">
-                        <i class="fa fa-bell"></i>
-                        <span class="badge badge-pill badge-danger">5</span>
-                    </a>
-                </li>
 
                 <li class="nav-item d-md-down-none">
                     <a href="#">
                         <i class="fa fa-envelope-open"></i>
-                        <span class="badge badge-pill badge-danger">5</span>
+                        <span class="badge badge-pill badge-danger" th:text="${session.amount}"></span>
                     </a>
                 </li>
 
@@ -79,7 +73,11 @@
                             <i class="icon icon-speedometer"></i> Dashboard
                         </a>
                     </li>
-
+                    <li class="nav-item">
+                        <a th:href="@{/admin/verifyMoneyManage}" class="nav-link">
+                            <i class="icon icon-speedometer"></i> VerifyMoneyManage
+                        </a>
+                    </li>
                     <li class="nav-item nav-dropdown">
                         <a href="#" class="nav-link nav-dropdown-toggle active">
                             <i class="icon icon-target"></i>Management <i class="fa fa-caret-left"></i>
@@ -125,7 +123,7 @@
                     </div>
                 </div>
                 <div id="show">
-                <table class="table table-bordered table-striped table-hover">
+               <!-- <table class="table table-bordered table-striped table-hover">
                     <tr class="label-success" >
                         <th style="width:5%">序号</th>
                         <th style="width:15%">服装名称</th>
@@ -162,7 +160,7 @@
                         <li><a th:href="@{/admin/ClothManagePage(current=${clothList.current},sign=2)}">下一页</a></li>
                     </ul>
                     <div>showing 1-9 results</div>
-                </div>
+                </div>-->
                 </div>
             </div>
         </div>

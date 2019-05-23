@@ -1,7 +1,10 @@
 package com.shop.cloth.web.controller;
 
+import com.shop.cloth.core.common.util.DateSyncUtil;
 import com.shop.cloth.core.dal.domain.User;
+import com.shop.cloth.core.dal.domain.Verify;
 import com.shop.cloth.core.service.UserService;
+import com.shop.cloth.core.service.VerifyService;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -10,6 +13,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpSession;
 import java.math.BigDecimal;
+import java.util.Date;
 import java.util.Objects;
 
 /**
@@ -24,6 +28,8 @@ public class UserController {
 
     @Resource
     private UserService userService;
+    @Resource
+    private VerifyService verifyService;
 
     /**
      * @Author sillybilly
@@ -113,13 +119,20 @@ public class UserController {
             int id = Integer.parseInt(str.substring(str.indexOf("=") + 1, str.indexOf(",")));
             User user = userService.queryById(id);
             BigDecimal bd1 = new BigDecimal(Double.toString(balance));
-            BigDecimal bd2 = new BigDecimal(Double.toString(user.getUserBalance()));
+            //BigDecimal bd2 = new BigDecimal(Double.toString(user.getUserBalance()));
             BigDecimal bd3 = new BigDecimal(Double.toString(user.getUserInvest()));
-            balance = bd1.add(bd2).doubleValue();
+            //balance = bd1.add(bd2).doubleValue();
             double Invest = bd1.add(bd3).doubleValue();
-            user.setUserBalance(balance);
+            //user.setUserBalance(balance);
             user.setUserInvest(Invest);
             userService.addBalance(user);
+            Verify verify = new Verify();
+            verify.setVerifyUsername(user.getUserName());
+            verify.setVerifyAmount(bd1.doubleValue());
+            verify.setVerifyTime(DateSyncUtil.format(new Date()));
+            verify.setVerifyUserid(user.getId());
+            verify.setVerifyUserphone(user.getUserPhone());
+            verifyService.addVerifyMoney(verify);
             session.setAttribute("userInfo",user);
         }
         return message;

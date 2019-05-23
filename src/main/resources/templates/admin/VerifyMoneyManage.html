@@ -74,12 +74,12 @@
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a th:href="@{/admin/verifyMoneyManage}" class="nav-link">
+                        <a th:href="@{/admin/verifyMoneyManage}" class="nav-link active">
                             <i class="icon icon-speedometer"></i> VerifyMoneyManage
                         </a>
                     </li>
                     <li class="nav-item nav-dropdown">
-                        <a href="#" class="nav-link nav-dropdown-toggle active">
+                        <a href="#" class="nav-link nav-dropdown-toggle">
                             <i class="icon icon-target"></i>Management <i class="fa fa-caret-left"></i>
                         </a>
 
@@ -97,11 +97,10 @@
                             </li>
 
                             <li class="nav-item">
-                                <a th:href="@{/admin/ClothManage}" class="nav-link active">
+                                <a th:href="@{/admin/ClothManage}" class="nav-link">
                                     <i class="icon icon-target"></i> ClothManage
                                 </a>
                             </li>
-
                         </ul>
                     </li>
 
@@ -112,7 +111,7 @@
         <div class="content">
             <div class="container-fluid">
                 <div class="panel panel-info">
-                    <h3 class="panel-heading" style="margin-bottom: 20px">服装管理</h3>
+                    <h3 class="panel-heading" style="margin-bottom: 20px">金额审核管理</h3>
                     <div class="panel-body">
                         <form th:action="@{/admin/queryByClothName}" method="post">
                             <div class="form-group" style="width: 30%">
@@ -123,44 +122,7 @@
                     </div>
                 </div>
                 <div id="show">
-               <!-- <table class="table table-bordered table-striped table-hover">
-                    <tr class="label-success" >
-                        <th style="width:5%">序号</th>
-                        <th style="width:15%">服装名称</th>
-                        <th style="width:10%">服装品牌</th>
-                        <th style="width:8%">服装颜色</th>
-                        <th style="width:8%">服装尺寸</th>
-                        <th style="width:8%">服装价格</th>
-                        <th style="width:10%">适用人群</th>
-                        <th style="width:8%">剩余库存</th>
-                        <th style="width:8%">已售数</th>
-                        <th style="width:10%">是否热卖</th>
-                        <th>操作</th>
-                    </tr>
-                    <tr th:each="clothlist,status:${clothList.getRecords()}">
-                        <td th:text="${status.count}"></td>
-                        <td><img th:src="@{'/images/'+${clothlist.clothSmallpicurl}}" class="photo_img" width="50" height="50"/>
-                            <span th:text="${clothlist.clothName}"></span></td>
-                        <td th:text="${clothlist.clothBrand}"></td>
-                        <td th:text="${clothlist.clothColor}"></td>
-                        <td th:text="${clothlist.clothSize}"></td>
-                        <td th:text="${clothlist.clothPrice}"></td>
-                        <td th:text="${clothlist.clothSex}"></td>
-                        <td th:text="${clothlist.clothStock}"></td>
-                        <td th:text="${clothlist.clothSellamount}"></td>
-                        <td th:text="${clothlist.clothIshotsell}"></td>
-                        <td><a href="book/preUpdate?id=${t.id}" class="btn btn-success btn-sm">置为热卖</a>
-                            </td>
-                    </tr>
-                </table>
-                <div class="center">
-                    <ul class="pageh1">
-                        <li><a th:href="@{/admin/ClothManagePage(current=${clothList.current},sign=0)}">上一页</a></li>
-                        <li><a th:href="@{/admin/ClothManagePage(current=${clothList.current},sign=1)}">1</a></li>
-                        <li><a th:href="@{/admin/ClothManagePage(current=${clothList.current},sign=2)}">下一页</a></li>
-                    </ul>
-                    <div>showing 1-9 results</div>
-                </div>-->
+
                 </div>
             </div>
         </div>
@@ -177,47 +139,28 @@
         $('#show').html("")
         var show = '<table class="table table-bordered table-striped table-hover">' +
             '<tr class="label-success" >' +
-            '<th style="width:5%">序号</th>' +
-            '<th style="width:15%">服装名称</th>' +
-            '<th style="width:10%">服装品牌</th>' +
-            '<th style="width:8%">服装颜色</th>' +
-            '<th style="width:8%">服装尺寸</th>' +
-            '<th style="width:8%">服装价格</th>' +
-            '<th style="width:8%">适用人群</th>' +
-            '<th style="width:8%">剩余库存</th>' +
-            '<th style="width:8%">已售数</th>' +
-            '<th style="width:6%">是否热卖</th>' +
+            '<th style="width:8%">序号</th>' +
+            '<th style="width:15%">充值用户</th>' +
+            '<th style="width:18%">联系电话</th>' +
+            '<th style="width:18%">充值金额数</th>' +
+            '<th style="width:18%">充值时间</th>' +
             '<th>操作</th>' +
             '</tr>'
         $.ajax({
             type: "get",
-            url: "/admin/showClothManage",
+            url: "/admin/showVerifyMoneyManage",
             cache: false,
             success: function (msg) {
-                var clothList = msg.records
+                var verifymoney = msg.records
                 for(var i=0;i < msg.records.length;i++){
                     show += '<tr>' +
                         '<td>'+((i+1)+9*(msg.current-1))+'</td>' +
-                        '<td><img src="/images/'+clothList[i].clothSmallpicurl+'" class="photo_img" width="50" height="50"/>' +
-                        '<span>'+clothList[i].clothName+'</span></td>' +
-                        '<td>'+clothList[i].clothBrand+'</td>' +
-                        '<td>'+clothList[i].clothColor+'</td>'
-                    if(clothList[i].clothSize == '0'){show += '<td>XXL</td>'}
-                    else if(clothList[i].clothSize == '1'){show += '<td>XL</td>'}
-                    else if(clothList[i].clothSize == '2'){show += '<td>L</td>'}
-                    else if(clothList[i].clothSize == '3'){show += '<td>35码</td>'}
-                    else if(clothList[i].clothSize == '4'){show += '<td>38码</td>'}
-                    else if(clothList[i].clothSize == '5'){show += '<td>42码</td>'}
-                    show += '<td>'+clothList[i].clothPrice+'</td>'
-                    if(clothList[i].clothSex == 0){show += '<td>男士</td>'}
-                    else if(clothList[i].clothSex == 1){show += '<td>女士</td>'}
-                    else if(clothList[i].clothSex == 2){show += '<td>儿童</td>'}
-                    show += '<td>'+clothList[i].clothStock+'</td>' +
-                        '<td>'+clothList[i].clothSellamount+'</td>'
-                    if(clothList[i].clothIshotsell == 1){show += '<td>热卖中</td>'}
-                    else {show += '<td>非热卖服装</td>'}
-                     show += '<td><a href="javascript:setHot(\''+clothList[i].id+'\');" class="btn btn-success btn-sm">置为热卖</a>&nbsp' +
-                         '<a href="javascript:cancelHot(\''+clothList[i].id+'\');" class="btn btn-success btn-sm">取消热卖</a></td>' +
+                        '<td>'+verifymoney[i].verifyUsername+'</td>' +
+                        '<td>'+verifymoney[i].verifyUserphone+'</td>' +
+                        '<td>'+verifymoney[i].verifyAmount+'</td>'+
+                        '<td>'+verifymoney[i].verifyTime+'</td>'
+                    show += '<td><a href="javascript:verifySuccess(\''+verifymoney[i].id+'\');" class="btn btn-success btn-sm">通过</a>&nbsp' +
+                        '<a href="javascript:verifyFail(\''+verifymoney[i].id+'\');" class="btn btn-success btn-sm">不通过</a></td>' +
                         '</tr>'
                 }
                 show += '</table>'
@@ -227,7 +170,7 @@
                 }
                 show += '<li><a href="javascript:void(0)" onclick="choosePage(' + msg.current + ',2)">下一页</a></li>' +
                     '</ul>' +
-                    '<div>showing 1-9 of ' + msg.total + 'results</div></div>'
+                    '<div>showing 1-10 of ' + msg.total + 'results</div></div>'
                 $('#show').append(show)
             }
         })
@@ -237,7 +180,7 @@
     function choosePage(current, sign) {
         $.ajax({
             type: 'GET',
-            url: '/admin/ClothManagePage',
+            url: '/admin/VerifyMoneyManagePage',
             data: {current: current, sign: sign},
             cache: false,
             dataType: 'json',
@@ -245,42 +188,23 @@
                 $('#show').html("")
                 var show = '<table class="table table-bordered table-striped table-hover">' +
                     '<tr class="label-success" >' +
-                    '<th style="width:5%">序号</th>' +
-                    '<th style="width:15%">服装名称</th>' +
-                    '<th style="width:10%">服装品牌</th>' +
-                    '<th style="width:8%">服装颜色</th>' +
-                    '<th style="width:8%">服装尺寸</th>' +
-                    '<th style="width:8%">服装价格</th>' +
-                    '<th style="width:8%">适用人群</th>' +
-                    '<th style="width:8%">剩余库存</th>' +
-                    '<th style="width:8%">已售数</th>' +
-                    '<th style="width:6%">是否热卖</th>' +
+                    '<th style="width:8%">序号</th>' +
+                    '<th style="width:15%">充值用户</th>' +
+                    '<th style="width:18%">联系电话</th>' +
+                    '<th style="width:18%">充值金额数</th>' +
+                    '<th style="width:18%">充值时间</th>' +
                     '<th>操作</th>' +
                     '</tr>'
-                var clothList = msg.records
+                var verifymoney = msg.records
                 for(var i=0;i < msg.records.length;i++){
                     show += '<tr>' +
                         '<td>'+((i+1)+9*(msg.current-1))+'</td>' +
-                        '<td><img src="/images/'+clothList[i].clothSmallpicurl+'" class="photo_img" width="50" height="50"/>' +
-                        '<span>'+clothList[i].clothName+'</span></td>' +
-                        '<td>'+clothList[i].clothBrand+'</td>' +
-                        '<td>'+clothList[i].clothColor+'</td>'
-                    if(clothList[i].clothSize == '0'){show += '<td>XXL</td>'}
-                    else if(clothList[i].clothSize == '1'){show += '<td>XL</td>'}
-                    else if(clothList[i].clothSize == '2'){show += '<td>L</td>'}
-                    else if(clothList[i].clothSize == '3'){show += '<td>35码</td>'}
-                    else if(clothList[i].clothSize == '4'){show += '<td>38码</td>'}
-                    else if(clothList[i].clothSize == '5'){show += '<td>42码</td>'}
-                    show += '<td>'+clothList[i].clothPrice+'</td>'
-                    if(clothList[i].clothSex == 0){show += '<td>男士</td>'}
-                    else if(clothList[i].clothSex == 1){show += '<td>女士</td>'}
-                    else if(clothList[i].clothSex == 2){show += '<td>儿童</td>'}
-                    show += '<td>'+clothList[i].clothStock+'</td>' +
-                        '<td>'+clothList[i].clothSellamount+'</td>'
-                    if(clothList[i].clothIshotsell == 1){show += '<td>热卖中</td>'}
-                    else {show += '<td>非热卖服装</td>'}
-                    show += '<td><a href="javascript:setHot(\''+clothList[i].id+'\');" class="btn btn-success btn-sm">置为热卖</a>&nbsp' +
-                        '<a href="javascript:cancelHot(\''+clothList[i].id+'\');" class="btn btn-success btn-sm">取消热卖</a></td>' +
+                        '<td>'+verifymoney[i].verifyUsername+'</td>' +
+                        '<td>'+verifymoney[i].verifyUserphone+'</td>' +
+                        '<td>'+verifymoney[i].verifyAmount+'</td>'+
+                        '<td>'+verifymoney[i].verifyTime+'</td>'
+                    show += '<td><a href="javascript:verifySuccess(\''+verifymoney[i].id+'\');" class="btn btn-success btn-sm">通过</a>&nbsp' +
+                        '<a href="javascript:verifyFail(\''+verifymoney[i].id+'\');" class="btn btn-success btn-sm">不通过</a></td>' +
                         '</tr>'
                 }
                 show += '</table>'
@@ -290,37 +214,37 @@
                 }
                 show += '<li><a href="javascript:void(0)" onclick="choosePage(' + msg.current + ',2)">下一页</a></li>' +
                     '</ul>' +
-                    '<div>showing 1-9 of ' + msg.total + 'results</div></div>'
+                    '<div>showing 1-10 of ' + msg.total + 'results</div></div>'
                 $('#show').append(show)
             }
         })
     }
 
-    function setHot(id) {
+    function verifySuccess(id) {
         $.ajax({
             type: 'GET',
-            url: '/admin/setHot',
+            url: '/admin/verifySuccess',
             data: {id: id},
             cache: false,
             dataType: 'json',
             success: function (msg){
                 if(msg == 0){alert("操作成功")
-                    location.href = '/admin/ClothManage'}
-                else alert("商品已为热卖，勿重复操作！")
+                    location.href = '/admin/verifyMoneyManage'}
+                else alert("网络异常，请重试！")
             }
         })
     }
-    function cancelHot(id) {
+    function verifyFail(id) {
         $.ajax({
             type: 'GET',
-            url: '/admin/cancelHot',
+            url: '/admin/verifyFail',
             data: {id: id},
             cache: false,
             dataType: 'json',
             success: function (msg){
-                if(msg == 0){alert("操作成功")
-                    location.href = '/admin/ClothManage'}
-                else alert("此为非热卖商品，请勿重复操作！")
+                if(msg == 0){alert("已取消")
+                    location.href = '/admin/verifyMoneyManage'}
+                else alert("网络异常，请重试！")
             }
         })
     }

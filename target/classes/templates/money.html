@@ -16,7 +16,7 @@
 			<p class="te_retit"><img src="images/coin.png" alt="" />充值中心</p>
 			<p>2.商城币与人民币换算为1：1，即1元=1商城币，你可以选择支付宝或者是微信的付款方式来进行充值，商城币每次10个起充。</p>
 		</div>
-		<form action="" class="am-form" id="doc-vld-msg">
+		<form action="javascript:void(0);" class="am-form" id="doc-vld-msg">
 			<div class="tr_rechbox">
 				<div class="tr_rechhead">
 					<p>充值帐号：
@@ -75,7 +75,7 @@
 			<div class="tr_paybox">
 				<input type="submit" value="确认支付" class="tr_pay am-btn" onclick="confirmMoney()"/>
 				<input type="button" value="返回" class="tr_pay am-btn" onclick="rollBack()">
-				<span>温馨提示：一经充值，概不退换</span>
+				<span style="color: red">温馨提示：一经充值，概不退换</span>
 			</div>
 		</form>
 	</div>
@@ -159,7 +159,7 @@
 					dataType: 'json',
 					success : function(message) {
 						if(message == 0)
-						alert("充值成功")
+						alert("已提交管理员审核，请耐心等待")
 						else{
 							alert("充值失败")
 						}

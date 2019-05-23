@@ -18,11 +18,12 @@ public class Generator {
 
     public static String[] tables = {
             //"cloth",
-            "orders"
+            //"orders"
             //"orderitem",
             //"user",
             //"cart"
            // "superuser"
+            "verify"
     };
 
     public static void main(String[] args) {

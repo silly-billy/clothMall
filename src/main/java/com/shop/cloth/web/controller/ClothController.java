@@ -73,6 +73,9 @@ public class ClothController {
         }else if(detailId.equals("4")){
             model.addAttribute("agori","儿童服装");
         }
+        else if(detailId.equals("0")){
+            model.addAttribute("agori","全部服装");
+        }
         return "product";
 
     }
@@ -98,6 +101,8 @@ public class ClothController {
         }else if(categoryid.equals("女士服装"))
         {
             return clothService.findAllFemale(1);
+        }else if(categoryid.equals("全部服装")){
+            return clothService.findAllCloth(1);
         }
         else return clothService.findAllChild(1);
     }
@@ -250,6 +255,22 @@ public class ClothController {
                     if(count == clothService.findAllFemale(count).getPages())
                         return clothService.findAllFemale(count);
                     else return clothService.findAllFemale(count+1);
+                }
+            }
+        }
+        else if(categoryid.equals("全部服装"))
+        {
+            if(current == 2)
+                return clothService.findAllCloth(count);
+            else {
+                if(current == 0)
+                    if(count == 1)
+                        return clothService.findAllCloth(count);
+                    else return clothService.findAllCloth(count-1);
+                else {
+                    if(count == clothService.findAllCloth(count).getPages())
+                        return clothService.findAllCloth(count);
+                    else return clothService.findAllCloth(count+1);
                 }
             }
         }

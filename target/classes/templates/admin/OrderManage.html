@@ -38,17 +38,12 @@
             </a>
 
             <ul class="navbar-nav ml-auto">
-                <li class="nav-item d-md-down-none">
-                    <a href="#">
-                        <i class="fa fa-bell"></i>
-                        <span class="badge badge-pill badge-danger">5</span>
-                    </a>
-                </li>
+
 
                 <li class="nav-item d-md-down-none">
                     <a href="#">
                         <i class="fa fa-envelope-open"></i>
-                        <span class="badge badge-pill badge-danger">5</span>
+                        <span class="badge badge-pill badge-danger" th:text="${session.amount}"></span>
                     </a>
                 </li>
 
@@ -79,7 +74,11 @@
                             <i class="icon icon-speedometer"></i> Dashboard
                         </a>
                     </li>
-
+                    <li class="nav-item">
+                        <a th:href="@{/admin/verifyMoneyManage}" class="nav-link">
+                            <i class="icon icon-speedometer"></i> VerifyMoneyManage
+                        </a>
+                    </li>
                     <li class="nav-item nav-dropdown">
                         <a href="#" class="nav-link nav-dropdown-toggle active">
                             <i class="icon icon-target"></i>Management <i class="fa fa-caret-left"></i>
@@ -263,7 +262,7 @@
             success: function (msg){
                 if(msg == 0){alert("已完成订单，待用户确认")
                     location.href = '/admin/OrderManage'}
-                else alert("物品尚未发货或已完成！！")
+                else alert("物品尚未发货！！")
             }
         })
     }

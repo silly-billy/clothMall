@@ -4,10 +4,7 @@ import com.baomidou.mybatisplus.plugins.Page;
 import com.shop.cloth.core.common.VO.OrderItemVO;
 import com.shop.cloth.core.common.util.OrderItemToVO;
 import com.shop.cloth.core.dal.domain.*;
-import com.shop.cloth.core.service.CartService;
-import com.shop.cloth.core.service.ClothService;
-import com.shop.cloth.core.service.SuperUserService;
-import com.shop.cloth.core.service.UserService;
+import com.shop.cloth.core.service.*;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -16,6 +13,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpSession;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -37,6 +35,8 @@ public class AdminController {
     private ClothService clothService;
     @Resource
     private CartService cartService;
+    @Resource
+    private VerifyService verifyService;
 
     @RequestMapping(method = RequestMethod.GET,value = "")
     public String getAdminLogin()
@@ -45,7 +45,7 @@ public class AdminController {
     }
 
     @RequestMapping(method = RequestMethod.GET,value = "/home")
-    public String getHome(Model model){
+    public String getHome(Model model,HttpSession session){
         model.addAttribute("userCount",superUserService.caculateUserCount());
         List<User> users = superUserService.caculateUserInvest();
         int userInvest = 0;
@@ -60,6 +60,7 @@ public class AdminController {
             soldcount += cloth.getClothSellamount();
         }
         model.addAttribute("soldcount",soldcount);
+        session.setAttribute("amount",verifyService.verifyCount());
         return "admin/home";
     }
 
@@ -325,5 +326,60 @@ public class AdminController {
         if(superUserService.cancelHot(id))
             return 0;
         else return 1;
+    }
+
+    @RequestMapping(method = RequestMethod.GET,value = "/verifyMoneyManage")
+    public String verifyMoneyManage()
+    {
+        return "admin/VerifyMoneyManage";
+    }
+
+    @RequestMapping(method = RequestMethod.GET,value = "/showVerifyMoneyManage")
+    @ResponseBody
+    public Page<Verify> showVerifyMoneyManage()
+    {
+        return verifyService.showVerifyList(1);
+    }
+
+    @RequestMapping(method = RequestMethod.GET,value = "/VerifyMoneyManagePage")
+    @ResponseBody
+    public Page<Verify> VerifyMoneyManagePage(int current,int sign){
+        if(sign == 1){
+            return verifyService.showVerifyList(current);
+        }else{
+            if(sign == 0){
+                if(current == 1)
+                    return verifyService.showVerifyList(current);
+                else
+                    return verifyService.showVerifyList(current-1);
+            }else {
+                if (current == verifyService.showVerifyList(current).getPages())
+                    return verifyService.showVerifyList(current);
+                else
+                    return verifyService.showVerifyList(current+1);
+            }
+        }
+    }
+
+    @RequestMapping(method = RequestMethod.GET,value = "/verifyFail")
+    @ResponseBody
+    public int verifyFail(int id)
+    {
+        verifyService.delVerifyById(id);
+        return 1;
+    }
+
+    @RequestMapping(method = RequestMethod.GET,value = "/verifySuccess")
+    @ResponseBody
+    public int verifySuccess(int id)
+    {
+        Verify verify = verifyService.queryVerifyById(id);
+        User user = userService.queryById(id);
+        BigDecimal bd1 = new BigDecimal(Double.toString(verify.getVerifyAmount()));
+        BigDecimal bd2 = new BigDecimal(Double.toString(user.getUserBalance()));
+        double balance = bd1.add(bd2).doubleValue();
+        user.setUserBalance(balance);
+        userService.addBalance(user);
+        return 0;
     }
 }
