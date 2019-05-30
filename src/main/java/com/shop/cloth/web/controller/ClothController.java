@@ -5,6 +5,7 @@ import com.shop.cloth.core.dal.domain.Cloth;
 import com.shop.cloth.core.dal.domain.User;
 import com.shop.cloth.core.service.CartService;
 import com.shop.cloth.core.service.ClothService;
+import com.shop.cloth.core.service.RemarkService;
 import com.shop.cloth.core.service.UserService;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Controller;
@@ -17,7 +18,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
-import java.util.List;
 
 
 /**
@@ -34,7 +34,8 @@ public class ClothController {
     private CartService cartService;
     @Resource
     private UserService userService;
-
+    @Resource
+    private RemarkService remarkService;
 
     /**
      * @Author sillybilly
@@ -120,7 +121,7 @@ public class ClothController {
     {
             System.out.println(clothId.getClass());
             model.addAttribute("clothInfo",clothService.queryClothInfo(clothId));
-
+            model.addAttribute("remarkCount",remarkService.caculateClothCount(clothId));
         return "single";
     }
 

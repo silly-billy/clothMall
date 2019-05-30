@@ -49,17 +49,24 @@ public class OrdersServiceImpl implements OrdersService {
     }
 
     @Override
-    public boolean cancelOrder(String orderNum) {
+    public int cancelOrder(String orderNum) {
         Wrapper<Orders> wrapper = new EntityWrapper<>();
         wrapper.eq("order_num",orderNum);
         Orders orders = ordersManager.selectOne(wrapper);
-        if(orders.getOrderItemstatus() != 4)
-        {
-            orders.setOrderItemstatus(4);
-            ordersManager.updateById(orders);
-            return true;
-        }
-        else return false;
+        if(orders.getOrderItemstatus() == 3)
+            return 0;
+        if(orders.getOrderItemstatus() == 4)
+            return 1;
+        orders.setOrderItemstatus(4);
+        ordersManager.updateById(orders);
+        return 2;
+    }
+
+    @Override
+    public int queryByClothId(int clothId,int userId) {
+        Wrapper<Orders> wrapper = new EntityWrapper<>();
+        wrapper.eq("order_clothid",clothId).eq("order_userid",userId);
+        return ordersManager.selectList(wrapper).size();
     }
 
 

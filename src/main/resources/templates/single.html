@@ -6,6 +6,7 @@
 <!-- Custom Theme files -->
 <!--theme-style-->
 <link th:href="@{css/style.css}" rel="stylesheet" type="text/css" media="all" />
+<link th:href="@{css/page.css}" rel="stylesheet" type="text/css" media="all"/>
 <!--//theme-style-->
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
@@ -42,7 +43,22 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 		</script>
 <!---//End-rate---->
 <link th:href="@{css/form.css}" rel="stylesheet" type="text/css" media="all" />
-
+<style>
+	.cont {
+		display: block;
+		position: fixed;
+		top: 25%;
+		left: 25%;
+		width: 40%;
+		height: 30%;
+		padding: 20px;
+		border: 5px solid #dde3e6;
+		background-color: #dde3e6;
+		color: #0a0c0a;
+		z-index:1;
+		overflow: auto;
+	}
+</style>
 </head>
 <body>
 
@@ -339,7 +355,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 				</div>
 				<h4 class="quick">Quick Overview:</h4>
 				<p class="quick_desc"> 累计销售：<span th:text="${clothInfo.clothSellamount}"></span>&nbsp;&nbsp;剩余库存：<span th:text="${clothInfo.clothStock}"></span></p>
-		<p class="quick_desc">累计评价（<span th:text="${clothInfo.clothPrice}"></span>）&nbsp;&nbsp;<span style="color: red" th:text="六月服装庆典"></span></p>
+		<p class="quick_desc">累计评价（<span th:text="${remarkCount}"></span>）&nbsp;&nbsp;<span style="color: red" th:text="六月服装庆典"></span></p>
 			    <div class="wish-list">
 				 	<ul>
 				 		<li class="wish"><a th:href="@{/wishlist}"><span class="glyphicon glyphicon-check" aria-hidden="true"></span>Add to Wishlist</a></li>
@@ -375,7 +391,8 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 	</nav>
 	<div class="tab-content one">
 <div class="tab-pane active text-style" id="tab1">
- <div class="facts">
+
+	<!--<div class="facts">
 									  <p > There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don't look even slightly believable. If you are going to use a passage of Lorem Ipsum, you need to be sure there isn't anything embarrassing hidden in the middle of text. All the Lorem Ipsum generators on the Internet tend to repeat predefined chunks as necessary, making this the first true generator on the Internet. It uses a dictionary of over 200 Latin words, combined </p>
 										<ul>
 											<li><span class="glyphicon glyphicon-ok" aria-hidden="true"></span>Research</li>
@@ -385,7 +402,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 											<li><span class="glyphicon glyphicon-ok" aria-hidden="true"></span>Verification, Validation and Testing</li>
 											<li><span class="glyphicon glyphicon-ok" aria-hidden="true"></span>Maintenance and Support</li>
 										</ul>         
-							        </div>
+							        </div>-->
 
 </div>
 <div class="tab-pane text-style" id="tab2">
@@ -722,6 +739,112 @@ $(window).load(function() {
 			else location.href = '/userInfo'
 		})
 	})
+</script>
+<script>
+	$(function(){
+		var remarkClothid = $('#cartClothid').val()
+		var show = ''
+		$('#tab1').html("")
+		$.ajax({
+			type: 'get',
+			url: '/remark/showRemarkInfo',
+			data: {
+				remarkClothid:remarkClothid
+			},
+			success: function (msg){
+				var date = msg.records
+				show += '<a href="javascript:void(0);" onclick="remark()"><p align="right">添加留言</p></a>' +
+						'<table style="border-collapse: collapse">'
+				for(var i = 0;i<date.length;i++){
+					show += '<tr style="border-bottom:solid 1px #d0dee5"><td>'+date[i].remarkBody+'</td><td style="font-size: xx-small;float: right">'+date[i].remarkTime+'--'+date[i].remarkUsername+'</td></tr>'
+				}
+				show += '</table>'
+				show += '<div class="center"><ul class="pageh1"><li><a href="javascript:void(0)" onclick="choosePage(' + msg.current + ',0)">上一页</a></li>'
+				for (var j = 1; j <= msg.pages && j < 4; j++) {
+					show += '<li><a href="javascript:void(0)" onclick="choosePage(' + j + ',1)">' + j + '</a></li>'
+				}
+				show += '<li><a href="javascript:void(0)" onclick="choosePage(' + msg.current + ',2)">下一页</a></li>' +
+						'</ul>' +
+						'<div>showing 1-3 of ' + msg.total + 'results</div></div>'
+				$('#tab1').append(show)
+			}
+		})
+	})
+
+	function choosePage(current,sign) {
+		var remarkClothid = $('#cartClothid').val()
+		var show = ''
+		$('#tab1').html("")
+		$.ajax({
+			type: 'get',
+			url: '/remark/showRemarkInfoPage',
+			data: {
+				remarkClothid:remarkClothid,
+				current:current,
+				sign:sign
+			},
+			success: function (msg){
+				var date = msg.records
+				show += '<a href="javascript:void(0);" onclick="remark()"><p align="right">添加留言</p></a>' +
+						'<table style="border-collapse: collapse">'
+				for(var i = 0;i<date.length;i++){
+					show += '<tr style="border-bottom:solid 1px #d0dee5"><td>'+date[i].remarkBody+'</td><td style="font-size: xx-small;float: right">'+date[i].remarkTime+'--'+date[i].remarkUsername+'</td></tr>'
+				}
+				show += '</table>'
+				show += '<div class="center"><ul class="pageh1"><li><a href="javascript:void(0)" onclick="choosePage(' + msg.current + ',0)">上一页</a></li>'
+				for (var j = 1; j <= msg.pages && j < 4; j++) {
+					show += '<li><a href="javascript:void(0)" onclick="choosePage(' + j + ',1)">' + j + '</a></li>'
+				}
+				show += '<li><a href="javascript:void(0)" onclick="choosePage(' + msg.current + ',2)">下一页</a></li>' +
+						'</ul>' +
+						'<div>showing 1-3 of ' + msg.total + 'results</div></div>'
+				$('#tab1').append(show)
+			}
+		})
+	}
+
+
+	function remark() {
+		var show = ''
+		$('#tab1').html("")
+		show += '<a href="javascript:void(0);" onclick="remark()"><p align="right">添加留言</p></a>' +
+				'<table style="border-collapse: collapse">' +
+				'<tr style="border-bottom:solid 1px #d0dee5"><td>等待评价中</td><td style="font-size: xx-small;float: right">评论时间-评论人</td></tr></table>'+
+				'<div id="cont_b" class="cont">' +
+				'<p>评价留言板</p>' +
+				'<textarea placeholder="请控制评价内容，不得超过30个字符" maxlength="50" cols="65" rows="5" id="remarkInfo" data-ts-color="black"></textarea>' +
+				'<a href="javascript:void(0);" class="btn btn-success btn-sm" onclick="exitRemark()" style="float: right">退出</a>' +
+				'<div style="float: right">&nbsp</div>' +
+				'<a href="javascript:void(0);" class="btn btn-success btn-sm" onclick="comRemark()" style="float: right">确认</a>' +
+				'</div>'
+		$('#tab1').append(show)
+	}
+
+	function exitRemark(){
+		var remarkClothid = $('#cartClothid').val()
+		location.href = '/single?clothId='+remarkClothid
+	}
+
+	function comRemark() {
+		var remarkClothid = $('#cartClothid').val()
+		var remarkBody = $('#remarkInfo').val()
+		$.ajax({
+			type: 'POST',
+			url: '/remark/clothRemark',
+			data: {
+				remarkClothid:remarkClothid,
+				remarkBody:remarkBody
+			},
+			success: function (msg){
+				if(msg == 0){
+					alert("评价成功！")
+					location.href = '/single?clothId='+remarkClothid
+				}
+				else if(msg == 1) alert("请先登录！")
+				else alert("购买商品后才可以评价哦！")
+			}
+		})
+	}
 </script>
 </body>
 </html>

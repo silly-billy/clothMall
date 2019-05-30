@@ -118,10 +118,7 @@ public class OrderController {
     @ResponseBody
     public int cancelOrder(String orderNum)
     {
-        if(ordersService.cancelOrder(orderNum)){
-            return 1;
-        }
-        else return 0;
+        return ordersService.cancelOrder(orderNum);
     }
 
 }

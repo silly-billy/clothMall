@@ -343,7 +343,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
     <nav class="nav-sidebar">
         <ul class="nav tabs">
             <li class="active"><a href="#tab1" data-toggle="tab">UserInfo Description</a></li>
-            <li class=""><a href="#tab2" data-toggle="tab">Balance Information</a></li>
+            <li class=""><a href="#tab2" data-toggle="tab">Order Information</a></li>
         </ul>
     </nav>
     <div class="tab-content one">
@@ -621,7 +621,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
             success: function (msg){
                 if(msg == 1){alert("订单已确认完成！")
                     location.href = '/userInfo'}
-                else alert("订单尚未完成！")
+                else alert("当前订单物流信息为待确认时，用户方可确认收货！！")
             }
         })
     }
@@ -633,9 +633,10 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
             cache: false,
             dataType: 'json',
             success: function (msg){
-                if(msg == 1){alert("订单已取消")
+                if(msg == 2){alert("订单已取消")
                     location.href = '/userInfo'}
-                else alert("请勿重复操作！")
+                else if(msg == 0) alert("订单已完成，请联系客服退款！！")
+                else alert("订单已取消，请勿重复操作！！")
             }
         })
     }

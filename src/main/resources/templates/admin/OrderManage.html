@@ -248,7 +248,7 @@
             success: function (msg){
                 if(msg == 0){alert("发货成功")
                     location.href = '/admin/OrderManage'}
-                else alert("物品已发货！！")
+                else alert("当前交易状态为买家已付款时，方可发货！！")
             }
         })
     }
@@ -262,7 +262,7 @@
             success: function (msg){
                 if(msg == 0){alert("已完成订单，待用户确认")
                     location.href = '/admin/OrderManage'}
-                else alert("物品尚未发货！！")
+                else alert("当前交易状态为已发货时，方可确定完成订单！！")
             }
         })
     }

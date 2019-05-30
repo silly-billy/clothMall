@@ -374,12 +374,13 @@ public class AdminController {
     public int verifySuccess(int id)
     {
         Verify verify = verifyService.queryVerifyById(id);
-        User user = userService.queryById(id);
+        User user = userService.queryById(verify.getVerifyUserid());
         BigDecimal bd1 = new BigDecimal(Double.toString(verify.getVerifyAmount()));
         BigDecimal bd2 = new BigDecimal(Double.toString(user.getUserBalance()));
         double balance = bd1.add(bd2).doubleValue();
         user.setUserBalance(balance);
         userService.addBalance(user);
+        verifyService.delVerifyById(id);
         return 0;
     }
 }

@@ -19,5 +19,7 @@ public interface OrdersService {
     /*确认订单*/
     boolean confirmOrder(String orderNum);
     /*取消订单*/
-    boolean cancelOrder(String orderNum);
+    int cancelOrder(String orderNum);
+    /*查询订单表中用户是否已经购买此商品*/
+    int queryByClothId(int clothId,int userId);
 }

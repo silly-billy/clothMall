@@ -23,7 +23,8 @@ public class Generator {
             //"user",
             //"cart"
            // "superuser"
-            "verify"
+            //"verify"
+            "remark"
     };
 
     public static void main(String[] args) {
