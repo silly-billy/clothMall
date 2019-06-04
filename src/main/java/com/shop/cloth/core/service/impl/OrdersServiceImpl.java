@@ -2,12 +2,15 @@ package com.shop.cloth.core.service.impl;
 
 import com.baomidou.mybatisplus.mapper.EntityWrapper;
 import com.shop.cloth.core.dal.domain.Orders;
+import com.shop.cloth.core.dal.domain.User;
 import com.shop.cloth.core.dal.manager.OrdersManager;
 import com.shop.cloth.core.service.OrdersService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.baomidou.mybatisplus.mapper.Wrapper;
+
+import javax.servlet.http.HttpSession;
 import java.util.List;
 
 /**
@@ -67,6 +70,17 @@ public class OrdersServiceImpl implements OrdersService {
         Wrapper<Orders> wrapper = new EntityWrapper<>();
         wrapper.eq("order_clothid",clothId).eq("order_userid",userId);
         return ordersManager.selectList(wrapper).size();
+    }
+
+    @Override
+    public Orders queryOrderByTime(HttpSession session) {
+        if(session.getAttribute("userInfo")==null||session.getAttribute("userInfo")==""){
+            return null;
+        }
+        User user = (User)session.getAttribute("userInfo");
+        Wrapper<Orders> wrapper = new EntityWrapper<>();
+        wrapper.eq("order_userid",user.getId()).orderBy("order_curtime",false);
+        return ordersManager.selectOne(wrapper);
     }
 
 

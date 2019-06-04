@@ -3,6 +3,7 @@ package com.shop.cloth.core.service;
 import com.baomidou.mybatisplus.plugins.Page;
 import com.shop.cloth.core.dal.domain.Cloth;
 
+import javax.servlet.http.HttpSession;
 import java.util.List;
 
 
@@ -27,7 +28,7 @@ public interface ClothService {
     Page<Cloth> findAllChild(int count);
 
     /*查询热卖服装*/
-    Page<Cloth> findAllHot(int count);
+    Page<Cloth> findAllHot(int count,HttpSession session);
 
     /*根据ID查询衣服信息*/
     Cloth queryClothInfo(int id);

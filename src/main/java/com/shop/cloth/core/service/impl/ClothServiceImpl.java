@@ -4,12 +4,14 @@ import com.baomidou.mybatisplus.mapper.EntityWrapper;
 import com.baomidou.mybatisplus.mapper.Wrapper;
 import com.baomidou.mybatisplus.plugins.Page;
 import com.shop.cloth.core.dal.domain.Cloth;
+import com.shop.cloth.core.dal.domain.Orders;
 import com.shop.cloth.core.dal.manager.ClothManager;
 import com.shop.cloth.core.service.ClothService;
+import com.shop.cloth.core.service.OrdersService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
+import javax.servlet.http.HttpSession;
 
 
 /**
@@ -23,6 +25,8 @@ public class ClothServiceImpl implements ClothService{
 
     @Autowired
     private ClothManager clothManager;
+    @Autowired
+    private OrdersService ordersService;
 
 
     @Override
@@ -65,12 +69,23 @@ public class ClothServiceImpl implements ClothService{
     }
 
     @Override
-    public Page<Cloth> findAllHot(int count) {
+    public Page<Cloth> findAllHot(int count, HttpSession session) {
+        Orders orders = ordersService.queryOrderByTime(session);
         Wrapper<Cloth> queryWrapper = new EntityWrapper<>();
-        queryWrapper.eq("cloth_ishotsell",1)
-                .eq("is_delete",0);
+        Page<Cloth> HotClothList = new Page<>();
         Page page = new Page(count,9);
-        Page<Cloth> HotClothList = clothManager.selectPage(page,queryWrapper);
+        if(null == orders){
+            queryWrapper.eq("cloth_ishotsell",1)
+                    .eq("is_delete",0);
+
+            HotClothList = clothManager.selectPage(page,queryWrapper);
+        }else{
+            Cloth cloth = clothManager.selectById(orders.getOrderClothid());
+            queryWrapper.eq("cloth_ishotsell",1)
+                    .eq("is_delete",0)
+                    .orderBy("cloth_sex").last("="+cloth.getClothSex()+" desc");
+            HotClothList = clothManager.selectPage(page,queryWrapper);
+        }
         return HotClothList;
     }
 

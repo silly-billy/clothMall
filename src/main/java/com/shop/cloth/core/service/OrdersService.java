@@ -2,6 +2,7 @@ package com.shop.cloth.core.service;
 
 import com.shop.cloth.core.dal.domain.Orders;
 
+import javax.servlet.http.HttpSession;
 import java.util.List;
 
 /**
@@ -22,4 +23,6 @@ public interface OrdersService {
     int cancelOrder(String orderNum);
     /*查询订单表中用户是否已经购买此商品*/
     int queryByClothId(int clothId,int userId);
+    /*特定用户的最新订单*/
+    Orders queryOrderByTime(HttpSession session);
 }

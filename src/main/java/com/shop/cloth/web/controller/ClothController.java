@@ -90,12 +90,12 @@ public class ClothController {
      */
     @RequestMapping(method = RequestMethod.GET,value = "/detailClothList")
     @ResponseBody
-    public Page<Cloth> getDetailClothList(String categoryid)
+    public Page<Cloth> getDetailClothList(String categoryid,HttpSession session)
     {
         System.out.println(categoryid);
         if(categoryid.equals("热卖服装"))
         {
-           return clothService.findAllHot(1);
+           return clothService.findAllHot(1,session);
         }
         else if(categoryid.equals("男士服装")){
             return clothService.findAllMale(1);
@@ -209,22 +209,22 @@ public class ClothController {
      */
     @RequestMapping(method = RequestMethod.GET,value = "/GoCloth")
     @ResponseBody
-    public Page<Cloth> getGoClothList(int count,int current,String categoryid)
+    public Page<Cloth> getGoClothList(int count,int current,String categoryid,HttpSession session)
     {
         System.out.println(categoryid);
         if(categoryid.equals("热卖服装"))
         {
             if(current == 2)
-            return clothService.findAllHot(count);
+            return clothService.findAllHot(count,session);
             else {
                 if(current == 0)
                     if(count == 1)
-                        return clothService.findAllHot(count);
-                    else return clothService.findAllHot(count-1);
+                        return clothService.findAllHot(count,session);
+                    else return clothService.findAllHot(count-1,session);
                     else {
-                        if(count == clothService.findAllHot(count).getPages())
-                            return clothService.findAllHot(count);
-                        else return clothService.findAllHot(count+1);
+                        if(count == clothService.findAllHot(count,session).getPages())
+                            return clothService.findAllHot(count,session);
+                        else return clothService.findAllHot(count+1,session);
                 }
             }
         }
